@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+export const dynamic = "force-dynamic";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { createClient } from "@/lib/supabase/server";
 import { notFound } from "next/navigation";
