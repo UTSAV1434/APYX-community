@@ -91,6 +91,9 @@ export default async function AdminTeamPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
+                      <Link href={`/admin/team/${member.id}/edit`} className="p-2 text-apyx-text-muted hover:text-white transition-colors" title="Edit Member">
+                        <Edit2 className="w-4 h-4" />
+                      </Link>
                       <form action={async () => {
                         "use server";
                         await deleteTeamMember(member.id);
