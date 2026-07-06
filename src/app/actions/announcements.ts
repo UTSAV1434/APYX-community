@@ -16,7 +16,7 @@ export async function getAnnouncements() {
     console.error("Error fetching announcements:", error);
     return [];
   }
-  return data.map(a => ({
+  return (data || []).map((a: any) => ({
     ...a,
     is_pinned: false,
     published_at: a.created_at,
