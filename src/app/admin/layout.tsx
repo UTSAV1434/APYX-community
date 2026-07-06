@@ -12,6 +12,7 @@ import {
   Users,
   LogOut,
   Menu,
+  Mail,
   X,
   Globe
 } from "lucide-react";
@@ -19,6 +20,7 @@ import { createBrowserClient } from "@supabase/ssr";
 
 const adminLinks = [
   { label: "Overview", href: "/admin", icon: LayoutDashboard },
+  { label: "Messages", href: "/admin/messages", icon: Mail },
   { label: "Events", href: "/admin/events", icon: Calendar },
   { label: "Announcements", href: "/admin/announcements", icon: Megaphone },
   { label: "Gallery", href: "/admin/gallery", icon: ImageIcon },

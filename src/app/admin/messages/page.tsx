@@ -6,12 +6,13 @@ import { deleteMessage, toggleMessageStatus } from "@/app/actions/contact";
 export const metadata: Metadata = {
   title: "Messages | Admin",
 };
+export const dynamic = "force-dynamic";
 
 export default async function AdminMessagesPage() {
   const supabase = await createClient();
   
   const { data: messages, error } = await supabase
-    .from("contact_messages")
+    .from("contact_submissions")
     .select("*")
     .order("created_at", { ascending: false });
 
@@ -40,7 +41,7 @@ export default async function AdminMessagesPage() {
             <div 
               key={msg.id} 
               className={`bg-apyx-surface border rounded-2xl p-6 transition-colors ${
-                msg.status === 'unread' 
+                !msg.is_read 
                   ? 'border-apyx-purple/50 shadow-[0_0_15px_rgba(168,85,247,0.1)]' 
                   : 'border-apyx-border opacity-70'
               }`}
@@ -48,7 +49,7 @@ export default async function AdminMessagesPage() {
               <div className="flex flex-col md:flex-row gap-4 md:items-start justify-between mb-4">
                 <div className="flex items-start gap-3">
                   <div className="mt-1 shrink-0">
-                    {msg.status === 'unread' ? (
+                    {!msg.is_read ? (
                       <div className="w-3 h-3 bg-apyx-purple rounded-full shadow-[0_0_10px_rgba(168,85,247,0.5)]" />
                     ) : (
                       <div className="w-3 h-3 bg-apyx-text-muted rounded-full" />
@@ -73,17 +74,17 @@ export default async function AdminMessagesPage() {
               <div className="flex items-center justify-end gap-3 pt-4 border-t border-apyx-border">
                 <form action={async () => {
                   "use server";
-                  await toggleMessageStatus(msg.id, msg.status);
+                  await toggleMessageStatus(msg.id, msg.is_read);
                 }}>
                   <button 
                     type="submit" 
                     className={`flex items-center gap-2 px-3 py-1.5 text-sm rounded-lg border transition-colors ${
-                      msg.status === 'unread' 
+                      !msg.is_read 
                         ? 'border-apyx-border text-apyx-text-secondary hover:text-white hover:border-white/20' 
                         : 'border-apyx-purple/30 text-apyx-purple hover:bg-apyx-purple/10'
                     }`}
                   >
-                    {msg.status === 'unread' ? (
+                    {!msg.is_read ? (
                       <><CheckCircle className="w-4 h-4" /> Mark as Read</>
                     ) : (
                       <><Circle className="w-4 h-4" /> Mark as Unread</>

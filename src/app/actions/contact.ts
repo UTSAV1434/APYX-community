@@ -28,13 +28,12 @@ export async function submitContactForm(formData: FormData) {
   return { success: true };
 }
 
-export async function toggleMessageStatus(id: string, currentStatus: string) {
+export async function toggleMessageStatus(id: string, is_read: boolean) {
   const supabase = await createClient();
-  const newStatus = currentStatus === "unread" ? "read" : "unread";
 
   const { error } = await supabase
-    .from("contact_messages")
-    .update({ status: newStatus })
+    .from("contact_submissions")
+    .update({ is_read: !is_read })
     .eq("id", id);
 
   if (error) {
@@ -49,7 +48,7 @@ export async function deleteMessage(id: string) {
   const supabase = await createClient();
 
   const { error } = await supabase
-    .from("contact_messages")
+    .from("contact_submissions")
     .delete()
     .eq("id", id);
 
