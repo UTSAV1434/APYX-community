@@ -14,6 +14,7 @@ import {
   Mail,
   ArrowRight,
   Circle,
+  Phone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +39,7 @@ const socialLinks = [
   { icon: Briefcase, href: "https://www.linkedin.com/company/apyxcommunity/", label: "LinkedIn" },
   { icon: Camera, href: "https://www.instagram.com/official.apyx?igsh=cXdwcHFyejJ5bGl1", label: "Instagram" },
   { icon: MessageCircle, href: "https://x.com/official_apyx", label: "Twitter/X" },
+  { icon: Phone, href: "https://chat.whatsapp.com/I32ntrKuJTzHlCbUZ6jQT0", label: "WhatsApp" },
 ];
 
 export function Footer() {

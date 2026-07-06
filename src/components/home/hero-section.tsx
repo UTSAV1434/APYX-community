@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Play, Sparkles, MessageCircle, Hash, Camera, Briefcase } from "lucide-react";
+import { ArrowRight, Play, Sparkles, MessageCircle, Hash, Camera, Briefcase, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -129,6 +129,12 @@ export function HeroSection() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="w-56 bg-apyx-surface border-apyx-border text-white">
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                <a href="https://chat.whatsapp.com/I32ntrKuJTzHlCbUZ6jQT0" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                  <Phone className="w-4 h-4 mr-2" />
+                  WhatsApp
+                </a>
+              </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
                 <a href="https://discord.gg/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
                   <MessageCircle className="w-4 h-4 mr-2" />
