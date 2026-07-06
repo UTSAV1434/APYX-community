@@ -130,7 +130,8 @@ CREATE TABLE public.gallery_items (
   type public.gallery_item_type NOT NULL DEFAULT 'photo',
   url text NOT NULL,
   caption text,
-  sort_order integer NOT NULL DEFAULT 0
+  sort_order integer NOT NULL DEFAULT 0,
+  created_at timestamptz NOT NULL DEFAULT now()
 );
 
 CREATE TABLE public.resources (

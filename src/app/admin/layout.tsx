@@ -145,6 +145,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <LogOut className="w-5 h-5" />
               Sign Out
             </button>
+            </div>
           </div>
         </div>
       )}
