@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Play, Sparkles, MessageCircle, Twitter, Instagram, Linkedin } from "lucide-react";
+import { ArrowRight, Play, Sparkles, MessageCircle, Hash, Camera, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -137,19 +137,19 @@ export function HeroSection() {
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
                 <a href="https://twitter.com/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
-                  <Twitter className="w-4 h-4 mr-2" />
+                  <Hash className="w-4 h-4 mr-2" />
                   Twitter
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
                 <a href="https://instagram.com/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
-                  <Instagram className="w-4 h-4 mr-2" />
+                  <Camera className="w-4 h-4 mr-2" />
                   Instagram
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
                 <a href="https://linkedin.com/company/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
-                  <Linkedin className="w-4 h-4 mr-2" />
+                  <Briefcase className="w-4 h-4 mr-2" />
                   LinkedIn
                 </a>
               </DropdownMenuItem>
