@@ -12,7 +12,8 @@ import {
   Users,
   LogOut,
   Menu,
-  X
+  X,
+  Globe
 } from "lucide-react";
 import { createBrowserClient } from "@supabase/ssr";
 
@@ -76,7 +77,14 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           })}
         </div>
 
-        <div className="p-4 border-t border-apyx-border">
+        <div className="p-4 border-t border-apyx-border space-y-2">
+          <Link
+            href="/"
+            className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-sm font-medium text-apyx-text-secondary hover:bg-white/5 hover:text-white transition-colors"
+          >
+            <Globe className="w-5 h-5" />
+            Back to Public Site
+          </Link>
           <button
             onClick={handleLogout}
             className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-sm font-medium text-apyx-text-secondary hover:bg-red-500/10 hover:text-red-500 transition-colors"
@@ -122,8 +130,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </Link>
               );
             })}
-            <button
-              onClick={handleLogout}
+            <div className="pt-4 mt-2 border-t border-apyx-border space-y-1">
+              <Link
+                href="/"
+                className="flex items-center gap-3 px-4 py-3 w-full rounded-lg text-sm font-medium text-apyx-text-secondary hover:bg-white/5 hover:text-white transition-colors"
+              >
+                <Globe className="w-5 h-5" />
+                Back to Public Site
+              </Link>
+              <button
+                onClick={handleLogout}
               className="flex items-center gap-3 px-4 py-3 w-full mt-4 rounded-lg text-sm font-medium text-apyx-text-secondary hover:bg-red-500/10 hover:text-red-500 transition-colors"
             >
               <LogOut className="w-5 h-5" />
