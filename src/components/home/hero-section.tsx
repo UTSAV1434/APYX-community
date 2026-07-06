@@ -1,8 +1,14 @@
 "use client";
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { ArrowRight, Play, Sparkles, MessageCircle, Twitter, Instagram, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
@@ -116,13 +122,39 @@ export function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
           className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
-          <Button className="h-14 px-8 rounded-full bg-white text-black hover:bg-white/90 text-base font-bold transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.3)]">
-            Join the Community
-          </Button>
-          <Button variant="outline" className="h-14 px-8 rounded-full border-white/20 bg-white/5 backdrop-blur-md text-white hover:bg-white/10 text-base font-medium transition-all group">
-            <Play className="w-4 h-4 mr-2 fill-white/80 text-white/80 group-hover:fill-white group-hover:text-white" />
-            Watch Trailer
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="h-14 px-8 rounded-full bg-white text-black hover:bg-white/90 text-base font-bold transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.3)]">
+                Join the Community
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center" className="w-56 bg-apyx-surface border-apyx-border text-white">
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                <a href="https://discord.gg/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Discord
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                <a href="https://twitter.com/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                  <Twitter className="w-4 h-4 mr-2" />
+                  Twitter
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                <a href="https://instagram.com/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                  <Instagram className="w-4 h-4 mr-2" />
+                  Instagram
+                </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                <a href="https://linkedin.com/company/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                  <Linkedin className="w-4 h-4 mr-2" />
+                  LinkedIn
+                </a>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </motion.div>
 
       </div>
