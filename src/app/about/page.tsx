@@ -101,31 +101,49 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Journey Timeline */}
+      {/* What We Do */}
       <section className="container-wide mb-32">
         <SectionHeader 
-          title="Our Journey" 
-          subtitle="How we got here and where we are going next."
+          title="What We Do" 
+          subtitle="How we bring our mission to life through action."
         />
         
-        <div className="max-w-3xl mx-auto">
-          <div className="relative border-l-2 border-apyx-border ml-4 md:ml-0 md:left-1/2 md:-translate-x-1/2 space-y-12 py-8">
-            {timeline.map((item, i) => (
-              <ScrollReveal key={item.year} className="relative">
-                <div className={`md:flex items-center justify-between w-full ${i % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                  {/* Timeline Dot */}
-                  <div className="absolute left-[-9px] md:left-1/2 md:-translate-x-1/2 w-4 h-4 rounded-full bg-apyx-purple ring-4 ring-apyx-bg z-10" />
-                  
-                  {/* Content */}
-                  <div className="ml-8 md:ml-0 md:w-[45%] bg-apyx-surface border border-apyx-border p-6 rounded-2xl">
-                    <span className="text-apyx-purple font-mono text-sm font-bold block mb-2">{item.year}</span>
-                    <h3 className="text-xl font-bold font-heading text-white mb-2">{item.title}</h3>
-                    <p className="text-apyx-text-secondary text-sm">{item.desc}</p>
-                  </div>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
+        <div className="grid md:grid-cols-3 gap-8">
+          <ScrollReveal>
+            <div className="bg-apyx-surface border border-apyx-border p-8 rounded-3xl h-full hover:border-apyx-purple/50 transition-colors group">
+              <div className="w-12 h-12 rounded-xl bg-apyx-purple/10 flex items-center justify-center text-apyx-purple mb-6 group-hover:scale-110 transition-transform">
+                <Rocket className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold font-heading text-white mb-3">Hackathons</h3>
+              <p className="text-apyx-text-secondary leading-relaxed">
+                We host high-energy hackathons where students can build, collaborate, and compete to create innovative solutions in just 48 hours.
+              </p>
+            </div>
+          </ScrollReveal>
+          
+          <ScrollReveal delay={0.1}>
+            <div className="bg-apyx-surface border border-apyx-border p-8 rounded-3xl h-full hover:border-apyx-cyan/50 transition-colors group">
+              <div className="w-12 h-12 rounded-xl bg-apyx-cyan/10 flex items-center justify-center text-apyx-cyan mb-6 group-hover:scale-110 transition-transform">
+                <Users className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold font-heading text-white mb-3">Workshops & Events</h3>
+              <p className="text-apyx-text-secondary leading-relaxed">
+                From technical deep-dives to founder talks, we bring in industry experts to bridge the gap between classroom theory and industry practice.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={0.2}>
+            <div className="bg-apyx-surface border border-apyx-border p-8 rounded-3xl h-full hover:border-apyx-rose/50 transition-colors group">
+              <div className="w-12 h-12 rounded-xl bg-apyx-rose/10 flex items-center justify-center text-apyx-rose mb-6 group-hover:scale-110 transition-transform">
+                <Lightbulb className="w-6 h-6" />
+              </div>
+              <h3 className="text-xl font-bold font-heading text-white mb-3">Project Incubator</h3>
+              <p className="text-apyx-text-secondary leading-relaxed">
+                We support student-led projects by providing mentorship, resources, and a platform to launch their ideas into the real world.
+              </p>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
