@@ -7,8 +7,6 @@ import {
   Rocket, 
   Ticket, 
   Mic2, 
-  Handshake, 
-  Trophy, 
   RefreshCcw, 
   Image as ImageIcon, 
   FileText 
@@ -16,19 +14,31 @@ import {
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { createClient } from "@/lib/supabase/client";
 
-const actionIcons: Record<string, React.ReactNode> = {
+import type { ActivityAction, ActivityLogEntry } from "@/types/database";
+
+const actionIcons: Record<ActivityAction | "default", React.ReactNode> = {
   registration_opened: <Ticket className="w-4 h-4 text-apyx-emerald" />,
-  speaker_announced: <Mic2 className="w-4 h-4 text-apyx-purple" />,
-  partnership: <Handshake className="w-4 h-4 text-apyx-blue" />,
-  results: <Trophy className="w-4 h-4 text-apyx-amber" />,
+  announcement_published: <Mic2 className="w-4 h-4 text-apyx-purple" />,
   event_created: <Rocket className="w-4 h-4 text-apyx-cyan" />,
+  event_updated: <RefreshCcw className="w-4 h-4 text-apyx-cyan" />,
   gallery_uploaded: <ImageIcon className="w-4 h-4 text-apyx-rose" />,
   resource_added: <FileText className="w-4 h-4 text-apyx-text-muted" />,
   default: <RefreshCcw className="w-4 h-4 text-apyx-text-muted" />,
 };
 
+function isActivityLogEntry(value: unknown): value is ActivityLogEntry {
+  return (
+    typeof value === "object" &&
+    value !== null &&
+    "id" in value &&
+    "action" in value &&
+    "summary" in value &&
+    "created_at" in value
+  );
+}
+
 export function ActivityFeed() {
-  const [activities, setActivities] = useState<any[]>([]);
+  const [activities, setActivities] = useState<ActivityLogEntry[]>([]);
   const supabase = createClient();
 
   // Fetch initial activities and subscribe to changes
@@ -47,14 +57,16 @@ export function ActivityFeed() {
     }
     fetchActivities();
 
-    // 2. Subscribe to realtime inserts on the 'activity_log' table
     const channel = supabase
-      .channel('public:activity_log')
+      .channel("public:activity_log")
       .on(
-        'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'activity_log' },
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "activity_log" },
         (payload) => {
-          setActivities((current) => [payload.new, ...current].slice(0, 5));
+          const entry = payload.new;
+          if (isActivityLogEntry(entry)) {
+            setActivities((current) => [entry, ...current].slice(0, 5));
+          }
         }
       )
       .subscribe();
@@ -93,7 +105,7 @@ export function ActivityFeed() {
                     className="flex gap-4"
                   >
                     <div className="mt-1 flex-shrink-0 w-8 h-8 rounded-full bg-apyx-bg border border-apyx-border flex items-center justify-center shadow-[0_0_10px_rgba(0,0,0,0.5)] z-10">
-                      {actionIcons[activity.action] || actionIcons.default}
+                      {actionIcons[activity.action] ?? actionIcons.default}
                     </div>
                     <div className="flex flex-col">
                       <p className="text-sm text-white font-medium line-clamp-2">

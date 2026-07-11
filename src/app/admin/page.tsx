@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Users, Calendar, Megaphone, Activity } from "lucide-react";
+import { Users, Calendar, Megaphone, Activity, Globe } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { format } from "date-fns";
@@ -35,9 +35,15 @@ export default async function AdminDashboardPage() {
 
   return (
     <div className="p-6 lg:p-10">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold font-heading text-white mb-2">Overview</h1>
-        <p className="text-apyx-text-secondary">Welcome back! Here is what&apos;s happening across APYX today.</p>
+      <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-3xl font-bold font-heading text-white mb-2">Overview</h1>
+          <p className="text-apyx-text-secondary">Welcome back! Here is what&apos;s happening across APYX today.</p>
+        </div>
+        <Link href="/" className="inline-flex items-center justify-center h-10 px-4 py-2 bg-white/5 border border-white/10 hover:bg-white/10 text-white text-sm font-medium rounded-lg transition-colors">
+          <Globe className="w-4 h-4 mr-2" />
+          Go Back to Site
+        </Link>
       </div>
 
       {/* Stats Grid */}

@@ -4,19 +4,25 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   Search,
   Menu,
-  X,
-  Code,
   Briefcase,
   Camera,
   ExternalLink,
   MessageCircle,
 } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+  SheetHeader,
+  SheetFooter,
+} from "@/components/ui/sheet";
+import { transitionSpring } from "@/lib/motion";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -55,27 +61,27 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-[350ms] ${
         scrolled
-          ? "glass shadow-lg shadow-black/10"
-          : "bg-transparent"
+          ? "bg-black/60 backdrop-blur-md border-b border-apyx-border/50 shadow-[0_4px_32px_rgba(0,0,0,0.4)]"
+          : "bg-transparent border-b border-transparent"
       }`}
     >
       {/* Skip to content — accessibility */}
       <a
         href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:bg-apyx-purple focus:text-white focus:rounded-lg"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-apyx-purple focus:text-white focus:rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
       >
         Skip to content
       </a>
 
-      <nav className="container-wide flex items-center justify-between h-16 lg:h-18">
+      <nav className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between h-[72px]">
         {/* Logo */}
         <Link
           href="/"
-          className="flex items-center gap-2 group"
+          className="flex items-center gap-2 group outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple rounded-md"
         >
-          <Image src="/logo.png" alt="APYX Logo" width={200} height={60} className="w-24 sm:w-32 h-auto object-contain" priority />
+          <Image src="/logo.png" alt="APYX Logo" width={128} height={38} className="w-24 sm:w-32 h-auto object-contain" priority />
         </Link>
 
         {/* Desktop Navigation */}
@@ -84,18 +90,18 @@ export function Navbar() {
             <Link
               key={link.href}
               href={link.href}
-              className={`relative px-3 py-2 text-sm font-medium transition-colors duration-200 rounded-lg hover:text-white ${
+              className={`relative px-3 py-2 text-sm font-medium transition-colors duration-[150ms] rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple ${
                 isActive(link.href)
                   ? "text-white"
-                  : "text-apyx-text-secondary hover:bg-white/5"
+                  : "text-apyx-text-secondary hover:text-white hover:bg-white/5"
               }`}
             >
               {link.label}
               {isActive(link.href) && (
                 <motion.div
                   layoutId="navbar-active"
-                  className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-to-r from-[#B026FF] to-[#14C8FF] rounded-full"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  className="absolute bottom-0 left-3 right-3 h-0.5 bg-gradient-brand rounded-full"
+                  transition={transitionSpring}
                 />
               )}
             </Link>
@@ -106,52 +112,50 @@ export function Navbar() {
         <div className="flex items-center gap-2">
           {/* Search button */}
           <button
-            className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-apyx-text-muted hover:text-white transition-colors rounded-lg hover:bg-white/5"
+            className="flex items-center gap-2 px-3 py-1.5 text-sm text-apyx-text-muted hover:text-white transition-colors duration-[150ms] rounded-lg hover:bg-white/5 outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple"
             onClick={() => {
-              // Will dispatch to global search overlay
               window.dispatchEvent(new CustomEvent("open-search"));
             }}
             aria-label="Search"
           >
             <Search className="w-4 h-4" />
-            <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono bg-white/5 rounded border border-white/10">
+            <kbd className="hidden sm:inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-mono bg-white/5 rounded border border-apyx-border text-apyx-text-secondary">
               Ctrl+K
             </kbd>
           </button>
 
           {/* Join APYX CTA — desktop only */}
           <Button
-            render={<a href="#" target="_blank" rel="noopener noreferrer" />}
+            asChild
             size="sm"
-            className="hidden lg:inline-flex bg-gradient-brand hover:opacity-90 transition-opacity text-white border-0 shadow-lg shadow-purple-500/20"
+            variant="primary"
+            className="hidden lg:inline-flex"
           >
-            Join APYX
-            <ExternalLink className="w-3 h-3 ml-1" />
+            <a href="#" target="_blank" rel="noopener noreferrer">
+              Join APYX
+              <ExternalLink className="w-3 h-3 ml-1.5" aria-hidden="true" />
+            </a>
           </Button>
 
           {/* Mobile hamburger */}
-          <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-            <SheetTrigger
-              className="lg:hidden p-2 text-apyx-text-secondary hover:text-white transition-colors rounded-md hover:bg-white/5 inline-flex items-center justify-center"
-              aria-label="Open menu"
-            >
-              <Menu className="w-5 h-5" />
-            </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="w-full sm:w-80 bg-apyx-bg border-apyx-border p-0"
-            >
-              <div className="flex flex-col h-full">
-                {/* Mobile header */}
-                <div className="flex items-center justify-between p-4 border-b border-apyx-border">
-                  <Link href="/" onClick={() => setMobileOpen(false)}>
-                    <Image src="/logo.png" alt="APYX Logo" width={160} height={48} className="w-24 h-auto object-contain" />
+          <div className="lg:hidden">
+            <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
+              <SheetTrigger
+                className="p-2 text-apyx-text-secondary hover:text-white transition-colors duration-[150ms] rounded-lg hover:bg-white/5 inline-flex items-center justify-center outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple"
+                aria-label="Open menu"
+              >
+                <Menu className="w-5 h-5" />
+              </SheetTrigger>
+              <SheetContent side="right" className="flex flex-col p-0">
+                <SheetHeader className="px-6 py-5 border-b border-apyx-border flex-row items-center justify-between">
+                  <Link href="/" onClick={() => setMobileOpen(false)} className="outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple rounded-md">
+                    <Image src="/logo.png" alt="APYX Logo" width={112} height={34} className="w-28 h-auto object-contain" />
                   </Link>
-                </div>
+                </SheetHeader>
 
                 {/* Search in mobile */}
                 <button
-                  className="flex items-center gap-2 mx-4 mt-4 px-3 py-2.5 text-sm text-apyx-text-muted bg-apyx-surface rounded-lg border border-apyx-border hover:border-apyx-purple/50 transition-colors"
+                  className="flex items-center gap-3 mx-6 mt-6 px-4 py-3 text-sm text-apyx-text-muted bg-apyx-surface rounded-xl border border-apyx-border hover:border-apyx-purple/50 transition-colors duration-[150ms] outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple"
                   onClick={() => {
                     setMobileOpen(false);
                     setTimeout(() => {
@@ -164,13 +168,13 @@ export function Navbar() {
                 </button>
 
                 {/* Mobile nav links */}
-                <nav className="flex-1 py-4">
+                <nav className="flex-1 py-4 overflow-y-auto">
                   {navLinks.map((link) => (
                     <Link
                       key={link.href}
                       href={link.href}
                       onClick={() => setMobileOpen(false)}
-                      className={`flex items-center px-6 py-3 text-base font-medium transition-colors ${
+                      className={`flex items-center px-6 py-3.5 text-base font-medium transition-colors duration-[150ms] outline-none focus-visible:bg-white/5 ${
                         isActive(link.href)
                           ? "text-white bg-apyx-surface border-l-2 border-apyx-purple"
                           : "text-apyx-text-secondary hover:text-white hover:bg-white/5"
@@ -181,36 +185,37 @@ export function Navbar() {
                   ))}
                 </nav>
 
-                {/* Mobile footer */}
-                <div className="p-4 border-t border-apyx-border space-y-4">
-                  {/* Social icons */}
-                  <div className="flex items-center gap-3">
+                <SheetFooter className="mt-auto px-6 py-6 border-t border-apyx-border flex flex-col gap-4">
+                  <div className="flex items-center gap-3 justify-center">
                     {socialLinks.map((social) => (
                       <a
-                        key={social.label}
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 text-apyx-text-muted hover:text-white transition-colors rounded-lg hover:bg-white/5"
-                        aria-label={social.label}
-                      >
-                        <social.icon className="w-5 h-5" />
-                      </a>
+                         key={social.label}
+                         href={social.href}
+                         target="_blank"
+                         rel="noopener noreferrer"
+                         className="p-2.5 text-apyx-text-muted hover:text-white transition-colors duration-[150ms] rounded-xl bg-apyx-surface border border-apyx-border hover:border-apyx-purple/50 outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple"
+                         aria-label={social.label}
+                       >
+                         <social.icon className="w-5 h-5" />
+                       </a>
                     ))}
                   </div>
 
-                  {/* Join CTA */}
                   <Button
-                    render={<a href="#" target="_blank" rel="noopener noreferrer" />}
-                    className="w-full bg-gradient-brand hover:opacity-90 text-white border-0"
+                    asChild
+                    variant="primary"
+                    size="lg"
+                    className="mt-4"
                   >
-                    Join APYX
-                    <ExternalLink className="w-3 h-3 ml-1" />
+                    <a href="#" target="_blank" rel="noopener noreferrer">
+                      Join APYX
+                      <ExternalLink className="w-3.5 h-3.5 ml-1.5" aria-hidden="true" />
+                    </a>
                   </Button>
-                </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+                </SheetFooter>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </nav>
     </header>

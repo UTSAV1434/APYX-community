@@ -63,8 +63,7 @@ export default async function AdminGalleryPage() {
                   </div>
                 )}
                 <div className="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/10">
-                  {/* @ts-ignore */}
-                  {album.gallery_items?.[0]?.count || 0} Photos
+                  {album.gallery_items?.count ?? 0} Photos
                 </div>
               </Link>
               

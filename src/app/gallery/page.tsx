@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { createClient } from "@/lib/supabase/server";
-import Link from "next/link";
-import { Folder, Image as ImageIcon } from "lucide-react";
+import { Folder } from "lucide-react";
+import { AlbumCard } from "@/components/ui/album-card";
 
 export const metadata: Metadata = {
   title: "Gallery Albums",
@@ -41,34 +41,7 @@ export default async function GalleryPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {albums.map((album, index) => (
               <ScrollReveal key={album.id} delay={index * 0.1}>
-                <Link href={`/gallery/${album.id}`} className="group flex flex-col bg-apyx-surface border border-apyx-border rounded-2xl overflow-hidden hover:border-apyx-purple/50 transition-colors">
-                  <div className="relative aspect-[4/3] overflow-hidden bg-apyx-bg">
-                    {album.cover_image ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img 
-                        src={album.cover_image} 
-                        alt={album.title} 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-apyx-text-muted">
-                        <ImageIcon className="w-10 h-10 opacity-20" />
-                      </div>
-                    )}
-                    
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    <div className="absolute top-4 right-4 px-3 py-1 bg-black/60 backdrop-blur-md rounded-full text-xs font-bold text-white border border-white/10 shadow-lg">
-                      {/* @ts-ignore */}
-                      {album.gallery_items?.[0]?.count || 0} Photos
-                    </div>
-                  </div>
-                  
-                  <div className="p-5">
-                    <h3 className="text-xl font-bold font-heading text-white mb-2 group-hover:text-apyx-purple transition-colors">{album.title}</h3>
-                    <p className="text-sm text-apyx-text-secondary line-clamp-2">{album.description || "View photos from this event."}</p>
-                  </div>
-                </Link>
+                <AlbumCard album={album} />
               </ScrollReveal>
             ))}
           </div>

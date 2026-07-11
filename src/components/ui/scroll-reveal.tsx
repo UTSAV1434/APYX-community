@@ -2,6 +2,8 @@
 
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import { useExperience } from "./experience/experience-provider";
+import { transitionEntrance, transitionSlow } from "@/lib/motion";
 
 interface ScrollRevealProps {
   children: React.ReactNode;
@@ -29,6 +31,11 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once, margin: "-50px" });
+  const { features } = useExperience();
+
+  if (!features.enableScrollReveal) {
+    return <div className={className}>{children}</div>;
+  }
 
   const initial = {
     opacity: 0,
@@ -42,9 +49,8 @@ export function ScrollReveal({
       initial={initial}
       animate={isInView ? { opacity: 1, x: 0, y: 0 } : initial}
       transition={{
-        duration: 0.6,
+        ...transitionSlow,
         delay,
-        ease: [0.22, 1, 0.36, 1], // ease-spring
       }}
       className={className}
     >
@@ -67,6 +73,11 @@ export function StaggeredReveal({
 }: StaggeredRevealProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const { features } = useExperience();
+
+  if (!features.enableScrollReveal) {
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <div ref={ref} className={className}>
@@ -76,9 +87,8 @@ export function StaggeredReveal({
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{
-            duration: 0.5,
+            ...transitionEntrance,
             delay: i * staggerDelay,
-            ease: [0.22, 1, 0.36, 1],
           }}
         >
           {child}

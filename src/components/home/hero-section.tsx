@@ -130,31 +130,35 @@ export function HeroSection() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="center" className="w-56 bg-apyx-surface border-apyx-border text-white">
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://chat.whatsapp.com/I32ntrKuJTzHlCbUZ6jQT0" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                <a
+                  href="https://chat.whatsapp.com/I32ntrKuJTzHlCbUZ6jQT0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Phone className="w-4 h-4 mr-2" />
                   WhatsApp
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://discord.gg/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                <a href="https://discord.gg/apyx" target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="w-4 h-4 mr-2" />
                   Discord
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://twitter.com/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                <a href="https://twitter.com/apyx" target="_blank" rel="noopener noreferrer">
                   <Hash className="w-4 h-4 mr-2" />
                   Twitter
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://instagram.com/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                <a href="https://instagram.com/apyx" target="_blank" rel="noopener noreferrer">
                   <Camera className="w-4 h-4 mr-2" />
                   Instagram
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://linkedin.com/company/apyx" target="_blank" rel="noopener noreferrer" className="flex items-center w-full">
+                <a href="https://linkedin.com/company/apyx" target="_blank" rel="noopener noreferrer">
                   <Briefcase className="w-4 h-4 mr-2" />
                   LinkedIn
                 </a>

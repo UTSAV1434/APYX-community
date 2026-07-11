@@ -4,129 +4,196 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── APYX Brand Design System ───────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────
+   APYX Design Token System — v2.0
+   Source of truth: .ai/02-brand.md · .ai/09-animation-specifications.md
+                    .ai/12-design-tokens.md · .ai/03-design-system.md
+   ───────────────────────────────────────────────────────────────────── */
 
 @theme inline {
   /* Font families */
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+  --font-sans:    var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono:    var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
   --font-heading: var(--font-outfit), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-serif), ui-serif, Georgia, serif;
+  /* Note: Playfair (--font-serif) removed — unused, saves ~30kB */
 
-  /* shadcn color mappings */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
+  /* ── shadcn/ui semantic color mappings ──────────────────────────── */
+  --color-background:             var(--background);
+  --color-foreground:             var(--foreground);
+  --color-card:                   var(--card);
+  --color-card-foreground:        var(--card-foreground);
+  --color-popover:                var(--popover);
+  --color-popover-foreground:     var(--popover-foreground);
+  --color-primary:                var(--primary);
+  --color-primary-foreground:     var(--primary-foreground);
+  --color-secondary:              var(--secondary);
+  --color-secondary-foreground:   var(--secondary-foreground);
+  --color-muted:                  var(--muted);
+  --color-muted-foreground:       var(--muted-foreground);
+  --color-accent:                 var(--accent);
+  --color-accent-foreground:      var(--accent-foreground);
+  --color-destructive:            var(--destructive);
+  --color-border:                 var(--border);
+  --color-input:                  var(--input);
+  --color-ring:                   var(--ring);
+  --color-chart-1:                var(--chart-1);
+  --color-chart-2:                var(--chart-2);
+  --color-chart-3:                var(--chart-3);
+  --color-chart-4:                var(--chart-4);
+  --color-chart-5:                var(--chart-5);
 
   /* Sidebar */
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar:                    var(--sidebar);
+  --color-sidebar-foreground:         var(--sidebar-foreground);
+  --color-sidebar-primary:            var(--sidebar-primary);
   --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-accent:             var(--sidebar-accent);
+  --color-sidebar-accent-foreground:  var(--sidebar-accent-foreground);
+  --color-sidebar-border:             var(--sidebar-border);
+  --color-sidebar-ring:               var(--sidebar-ring);
 
-  /* Radii */
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+  /* ── Border Radius Scale ────────────────────────────────────────── */
+  /* Source: .ai/12-design-tokens.md — Never exceed 2xl (28px) on cards */
+  /* --radius = 1rem (16px) — set in :root */
+  --radius-sm:  calc(var(--radius) * 0.5);    /* 8px  — Small */
+  --radius-md:  calc(var(--radius) * 0.75);   /* 12px — Medium */
+  --radius-lg:  var(--radius);                /* 16px — Large */
+  --radius-xl:  calc(var(--radius) * 1.25);   /* 20px — XL / Card radius */
+  --radius-2xl: calc(var(--radius) * 1.75);   /* 28px — 2XL / Max card */
+  --radius-3xl: calc(var(--radius) * 2);      /* 32px — kept for compat */
+  --radius-4xl: calc(var(--radius) * 2.5);    /* 40px — kept for compat */
 
-  /* APYX custom brand colors */
-  --color-apyx-bg: #050816;
-  --color-apyx-bg-alt: #0B1023;
-  --color-apyx-surface: #141B34;
-  --color-apyx-border: #1F2947;
-  --color-apyx-purple: #A855F7;
-  --color-apyx-blue: #3B82F6;
-  --color-apyx-cyan: #22D3EE;
-  --color-apyx-emerald: #10B981;
-  --color-apyx-amber: #F59E0B;
-  --color-apyx-rose: #F43F5E;
-  --color-apyx-text: #FFFFFF;
-  --color-apyx-text-secondary: #B5BED3;
-  --color-apyx-text-muted: #7A859E;
+  /* ── APYX Brand Color Tokens ────────────────────────────────────── */
+  /* Source: .ai/02-brand.md — These values are FINAL. Do not change.  */
 
-  /* Custom animations */
-  --animate-fade-in: fade-in 0.5s ease-out forwards;
-  --animate-fade-in-up: fade-in-up 0.6s ease-out forwards;
+  /* Backgrounds */
+  --color-apyx-bg:         #050816;   /* Page background (deep navy) */
+  --color-apyx-bg-alt:     #0B1023;   /* Secondary background */
+  --color-apyx-surface:    #141B34;   /* Card / component surface */
+
+  /* Borders */
+  --color-apyx-border:     #1F2947;   /* Default border */
+  --color-apyx-border-alt: #2A3559;   /* Hover / emphasis border */
+
+  /* Brand gradient (Purple → Indigo → Blue → Cyan) */
+  --color-apyx-purple:     #B026FF;   /* Brand Primary ← corrected from #A855F7 */
+  --color-apyx-indigo:     #6D4AFF;   /* Brand Secondary */
+  --color-apyx-blue:       #2F7BFF;   /* Brand Accent ← corrected from #3B82F6 */
+  --color-apyx-cyan:       #14C8FF;   /* Brand Highlight ← corrected from #22D3EE */
+
+  /* Status colors — Source: .ai/12-design-tokens.md */
+  --color-apyx-emerald:    #22C55E;   /* Success ← corrected from #10B981 */
+  --color-apyx-amber:      #FACC15;   /* Warning ← corrected from #F59E0B */
+  --color-apyx-rose:       #EF4444;   /* Danger  ← corrected from #F43F5E */
+  --color-apyx-info:       #3B82F6;   /* Info */
+
+  /* Text hierarchy */
+  --color-apyx-text:           #FFFFFF;   /* Primary text */
+  --color-apyx-text-secondary: #B5BED3;   /* Secondary text */
+  --color-apyx-text-muted:     #7A859E;   /* Muted / placeholder */
+  --color-apyx-text-disabled:  #5C6478;   /* Disabled text */
+
+  /* ── Animation Token Aliases ────────────────────────────────────── */
+  --animate-fade-in:        fade-in 0.5s ease-out forwards;
+  --animate-fade-in-up:     fade-in-up 0.6s ease-out forwards;
   --animate-slide-in-right: slide-in-right 0.4s ease-out forwards;
-  --animate-scale-in: scale-in 0.3s ease-out forwards;
-  --animate-shimmer: shimmer 1.5s linear infinite;
-  --animate-glow-pulse: glow-pulse 2s ease-in-out infinite;
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-marquee: marquee 30s linear infinite;
-  --animate-shake: shake 0.4s ease-in-out;
-  --animate-bounce-subtle: bounce-subtle 2s ease-in-out infinite;
-  --animate-spin-slow: spin 8s linear infinite;
+  --animate-scale-in:       scale-in 0.3s ease-out forwards;
+  --animate-shimmer:        shimmer 1.5s linear infinite;
+  --animate-glow-pulse:     glow-pulse 2s ease-in-out infinite;
+  --animate-float:          float 6s ease-in-out infinite;
+  --animate-marquee:        marquee 30s linear infinite;
+  --animate-shake:          shake 0.4s ease-in-out;
+  --animate-bounce-subtle:  bounce-subtle 2s ease-in-out infinite;
+  --animate-spin-slow:      spin 8s linear infinite;
   --animate-gradient-shift: gradient-shift 8s ease infinite;
 }
 
-/* ─── APYX Dark Theme (default — dark-first design) ──────────────── */
+/* ─────────────────────────────────────────────────────────────────────
+   APYX Dark Theme (default — dark-first design)
+   Source: .ai/12-design-tokens.md
+   ───────────────────────────────────────────────────────────────────── */
 
 :root {
-  --background: #050816;
-  --foreground: #FFFFFF;
-  --card: #141B34;
-  --card-foreground: #FFFFFF;
-  --popover: #0B1023;
-  --popover-foreground: #FFFFFF;
-  --primary: #A855F7;
-  --primary-foreground: #FFFFFF;
-  --secondary: #1F2947;
+  /* ── Core semantic tokens ───────────────────────────────────────── */
+  --background:           #050816;   /* apyx-bg */
+  --foreground:           #FFFFFF;
+  --card:                 #141B34;   /* apyx-surface */
+  --card-foreground:      #FFFFFF;
+  --popover:              #0B1023;   /* apyx-bg-alt */
+  --popover-foreground:   #FFFFFF;
+  --primary:              #B026FF;   /* Brand Primary — corrected */
+  --primary-foreground:   #FFFFFF;
+  --secondary:            #1F2947;   /* apyx-border */
   --secondary-foreground: #B5BED3;
-  --muted: #0B1023;
-  --muted-foreground: #7A859E;
-  --accent: #141B34;
-  --accent-foreground: #FFFFFF;
-  --destructive: #F43F5E;
-  --border: #1F2947;
-  --input: #1F2947;
-  --ring: #A855F7;
-  --chart-1: #A855F7;
-  --chart-2: #3B82F6;
-  --chart-3: #22D3EE;
-  --chart-4: #10B981;
-  --chart-5: #F59E0B;
-  --radius: 0.75rem;
+  --muted:                #0B1023;
+  --muted-foreground:     #7A859E;
+  --accent:               #141B34;
+  --accent-foreground:    #FFFFFF;
+  --destructive:          #EF4444;   /* Spec-correct danger — corrected */
+  --border:               #1F2947;
+  --input:                #1F2947;
+  --ring:                 #B026FF;   /* Brand Primary — corrected */
+  --chart-1:              #B026FF;
+  --chart-2:              #2F7BFF;
+  --chart-3:              #14C8FF;
+  --chart-4:              #22C55E;
+  --chart-5:              #FACC15;
+  --radius:               1rem;      /* 16px — APYX Large radius token */
 
-  /* Admin sidebar */
-  --sidebar: #0B1023;
-  --sidebar-foreground: #B5BED3;
-  --sidebar-primary: #A855F7;
+  /* ── Admin sidebar ──────────────────────────────────────────────── */
+  --sidebar:                    #0B1023;
+  --sidebar-foreground:         #B5BED3;
+  --sidebar-primary:            #B026FF;   /* Corrected */
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #141B34;
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #1F2947;
-  --sidebar-ring: #A855F7;
+  --sidebar-accent:             #141B34;
+  --sidebar-accent-foreground:  #FFFFFF;
+  --sidebar-border:             #1F2947;
+  --sidebar-ring:               #B026FF;   /* Corrected */
+
+  /* ── Motion Tokens ──────────────────────────────────────────────── */
+  /* Source: .ai/09-animation-specifications.md                       */
+  --duration-instant:   100ms;
+  --duration-fast:      150ms;
+  --duration-medium:    250ms;
+  --duration-standard:  350ms;
+  --duration-slow:      500ms;
+  --duration-scene:     800ms;
+  --duration-hero:      1200ms;
+
+  /* Easing curves — spec-exact values */
+  --ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit:     cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-standard: ease-in-out;
+
+  /* ── Z-Index Tokens (Layer System) ──────────────────────────────── */
+  /* Mathematical rendering order for the Experience Layer */
+  --z-background: 0;
+  --z-mesh:       5;
+  --z-noise:      10;
+  --z-lighting:   15;
+  --z-content:    20;
+  --z-glass:      30;
+  --z-navigation: 100;
+  --z-dropdown:   200;
+  --z-drawer:     300;
+  --z-overlay:    350;
+  --z-dialog:     400;
+  --z-modal:      450;
+  --z-toast:      500;
+  --z-tooltip:    600;
+
+  /* ── Elevation System (Shadows) ─────────────────────────────────── */
+  --shadow-elevation-1: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -2px rgba(0, 0, 0, 0.5);
+  --shadow-elevation-2: 0 10px 15px -3px rgba(0, 0, 0, 0.6), 0 4px 6px -4px rgba(0, 0, 0, 0.6);
+  --shadow-elevation-3: 0 20px 25px -5px rgba(0, 0, 0, 0.7), 0 8px 10px -6px rgba(0, 0, 0, 0.7);
+  --shadow-overlay:     0 0 0 100vmax rgba(0, 0, 0, 0.6);
+  --shadow-modal:       0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(31, 41, 71, 0.8);
+  --shadow-toast:       0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(176, 38, 255, 0.3);
 }
 
-/* ─── Base Layer ──────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────
+   Base Layer
+   ───────────────────────────────────────────────────────────────────── */
 
 @layer base {
   * {
@@ -145,46 +212,56 @@
   }
 
   /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #050816;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #1F2947;
-    border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #A855F7;
-  }
+  ::-webkit-scrollbar          { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track    { background: #050816; }
+  ::-webkit-scrollbar-thumb    { background: #1F2947; border-radius: 3px; transition: background 150ms; }
+  ::-webkit-scrollbar-thumb:hover { background: #B026FF; } /* Corrected to brand primary */
 
   /* Selection */
   ::selection {
-    background: rgba(168, 85, 247, 0.3);
+    background: rgba(176, 38, 255, 0.3);  /* Corrected to #B026FF */
     color: #FFFFFF;
   }
 
-  /* Focus styles */
+  /* Focus styles — brand ring */
   :focus-visible {
-    outline: 2px solid #A855F7;
+    outline: 2px solid #B026FF;  /* Corrected to brand primary */
     outline-offset: 2px;
+  }
+
+  /* Headings default to heading font */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
   }
 }
 
-/* ─── Utility Classes ─────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────
+   Utility Classes
+   ───────────────────────────────────────────────────────────────────── */
 
 @layer utilities {
-  /* APYX gradient text */
+
+  /* ── Typography ─────────────────────────────────────────────────── */
+
+  /** Brand gradient text — Purple → Indigo → Blue → Cyan */
   .text-gradient {
     background: linear-gradient(135deg, #B026FF, #6D4AFF, #2F7BFF, #14C8FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+  
+  /** Typography Rhythm Utilities */
+  .text-rhythm-tight {
+    @apply leading-tight tracking-tight;
+  }
+  .text-rhythm-relaxed {
+    @apply leading-relaxed tracking-normal;
+  }
 
-  /* Gradient border */
+  /* ── Border Utilities ───────────────────────────────────────────── */
+
+  /** Animated gradient border using pseudo-element masking */
   .border-gradient {
     position: relative;
     border: 1px solid transparent;
@@ -203,7 +280,9 @@
     pointer-events: none;
   }
 
-  /* Glass morphism */
+  /* ── Glass Morphism ─────────────────────────────────────────────── */
+
+  /** Standard glass — navbars, modals */
   .glass {
     background: rgba(11, 16, 35, 0.7);
     backdrop-filter: blur(16px) saturate(180%);
@@ -211,6 +290,7 @@
     border: 1px solid rgba(31, 41, 71, 0.5);
   }
 
+  /** Subtle glass — floating elements, tooltips */
   .glass-subtle {
     background: rgba(11, 16, 35, 0.4);
     backdrop-filter: blur(8px);
@@ -218,51 +298,88 @@
     border: 1px solid rgba(31, 41, 71, 0.3);
   }
 
-  /* Glow effects */
-  .glow-purple {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.15), 0 0 40px rgba(168, 85, 247, 0.05);
-  }
-  .glow-blue {
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.15), 0 0 40px rgba(59, 130, 246, 0.05);
-  }
-  .glow-cyan {
-    box-shadow: 0 0 20px rgba(34, 211, 238, 0.15), 0 0 40px rgba(34, 211, 238, 0.05);
+  /** Card glass — premium cards */
+  .glass-card {
+    background: rgba(20, 27, 52, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(31, 41, 71, 0.6);
   }
 
-  /* Gradient backgrounds */
+  /* ── Glow Utilities ─────────────────────────────────────────────── */
+
+  /** Corrected to use brand colors */
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(176, 38, 255, 0.15), 0 0 40px rgba(176, 38, 255, 0.05);
+  }
+  .glow-blue {
+    box-shadow: 0 0 20px rgba(47, 123, 255, 0.15), 0 0 40px rgba(47, 123, 255, 0.05);
+  }
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(20, 200, 255, 0.15), 0 0 40px rgba(20, 200, 255, 0.05);
+  }
+  .glow-green {
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.15), 0 0 40px rgba(34, 197, 94, 0.05);
+  }
+  
+  /** Accessible keyboard focus glow */
+  .glow-focus:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(176, 38, 255, 1), 0 0 20px rgba(176, 38, 255, 0.4);
+  }
+
+  /* ── Gradient Backgrounds ───────────────────────────────────────── */
+
+  /** Primary brand gradient — buttons, CTAs, headings */
   .bg-gradient-brand {
     background: linear-gradient(135deg, #B026FF, #6D4AFF, #2F7BFF, #14C8FF);
   }
+  /** Page background gradient */
   .bg-gradient-surface {
     background: linear-gradient(180deg, #0B1023 0%, #050816 100%);
   }
+  /** Card hover overlay */
   .bg-gradient-card-hover {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.05), rgba(59, 130, 246, 0.05));
+    background: linear-gradient(135deg, rgba(176, 38, 255, 0.05), rgba(47, 123, 255, 0.05));
+  }
+  /** Radial ambient glow — hero backgrounds */
+  .bg-glow-brand {
+    background: radial-gradient(ellipse at center, rgba(176, 38, 255, 0.15) 0%, transparent 70%);
   }
 
-  /* Section padding */
+  /* ── Layout Utilities ───────────────────────────────────────────── */
+
+  /**
+   * Section Padding — Source: .ai/03-design-system.md
+   * Mobile:  32px (py-8)   ← was incorrectly 64px
+   * Tablet:  64px (py-16)  ← was incorrectly 80px
+   * Desktop: 96px (py-24)  ← was correct
+   */
   .section-padding {
-    @apply px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24;
+    @apply px-4 sm:px-6 lg:px-8 py-8 sm:py-16 lg:py-24;
   }
   .section-padding-sm {
-    @apply px-4 sm:px-6 lg:px-8 py-10 sm:py-12 lg:py-16;
+    @apply px-4 sm:px-6 lg:px-8 py-6 sm:py-10 lg:py-16;
   }
 
-  /* Container */
+  /** Content container — 1280px max (Source: .ai/03-design-system.md) */
   .container-wide {
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Hide scrollbar */
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  /** Reading width — 720px for text content, hero copy */
+  .container-reading {
+    @apply max-w-2xl mx-auto px-4 sm:px-6;
   }
 
-  /* Shimmer loading effect */
+  /* ── Scrollbar ──────────────────────────────────────────────────── */
+
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* ── Loading / Skeleton ─────────────────────────────────────────── */
+
+  /** Shimmer animation for skeleton loaders */
   .shimmer {
     background: linear-gradient(90deg, #141B34 0%, #1F2947 50%, #141B34 100%);
     background-size: 200% 100%;
@@ -270,93 +387,76 @@
   }
 }
 
-/* ─── Keyframe Animations ─────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────
+   Keyframe Animations
+   ───────────────────────────────────────────────────────────────────── */
 
 @keyframes fade-in {
   from { opacity: 0; }
-  to { opacity: 1; }
+  to   { opacity: 1; }
 }
 
 @keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes slide-in-right {
-  from {
-    opacity: 0;
-    transform: translateX(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
 @keyframes scale-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 @keyframes shimmer {
-  0% { background-position: 200% 0; }
+  0%   { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
 
 @keyframes glow-pulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(168, 85, 247, 0.25), 0 0 80px rgba(168, 85, 247, 0.1);
-  }
+  0%, 100% { box-shadow: 0 0 20px rgba(176, 38, 255, 0.1); }
+  50%       { box-shadow: 0 0 40px rgba(176, 38, 255, 0.25), 0 0 80px rgba(176, 38, 255, 0.1); }
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+  50%       { transform: translateY(-20px); }
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
+  0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
+  0%, 100%      { transform: translateX(0); }
   10%, 50%, 90% { transform: translateX(-4px); }
-  30%, 70% { transform: translateX(4px); }
+  30%, 70%      { transform: translateX(4px); }
 }
 
 @keyframes bounce-subtle {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
+  50%       { transform: translateY(-8px); }
 }
 
 @keyframes gradient-shift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
 
 @keyframes count-up {
   from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ─── Reduced Motion ──────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────────────
+   Reduced Motion Accessibility
+   Source: .ai/15-accessibility.md — "Respect prefers-reduced-motion"
+   ───────────────────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -367,4 +467,17 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}@theme inline {
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+}
+
+@keyframes accordion-down {
+  from { height: 0 }
+  to { height: var(--radix-accordion-content-height) }
+}
+
+@keyframes accordion-up {
+  from { height: var(--radix-accordion-content-height) }
+  to { height: 0 }
 }

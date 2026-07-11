@@ -33,14 +33,10 @@ export default async function Home() {
   const { data: eventsData } = await supabase
     .from("events")
     .select("*")
-    .order("date", { ascending: true })
+    .order("start_date", { ascending: true })
     .limit(3);
 
-  const events = eventsData ? eventsData.map(e => ({
-    ...e,
-    start_date: e.date,
-    cover_image: e.banner_url
-  })) : [];
+  const events = eventsData ?? [];
 
   return (
     <div className="flex flex-col min-h-screen">

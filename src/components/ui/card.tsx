@@ -1,95 +1,192 @@
-import * as React from "react"
+/**
+ * APYX Card Component
+ * Source: .ai/04-components.md · .ai/12-design-tokens.md
+ * Source: .ai/09-animation-specifications.md § 9. Cards
+ *
+ * Spec values:
+ *   Background: #141B34 (apyx-surface)
+ *   Border:     #1F2947 (apyx-border), 1px
+ *   Radius:     20px (rounded-[20px]) — spec "Card Radius"
+ *   Padding:    24px (p-6)
+ *   Hover:      lift 2px + border highlight + shadow glow
+ *
+ * Variants:
+ *   default   — Standard card with hover lift
+ *   glass     — Glassmorphism card (hero floaters, overlays)
+ *   elevated  — High-contrast featured card with stronger shadow
+ *   flat      — No hover effect (for dashboard, data tables)
+ *
+ * Sub-components: CardHeader · CardTitle · CardDescription ·
+ *                 CardAction · CardContent · CardFooter
+ */
 
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { cn } from "@/lib/utils";
+
+/* ── Card ──────────────────────────────────────────────────────────── */
+
+interface CardProps extends React.ComponentProps<"div"> {
+  /** Visual style variant */
+  variant?: "default" | "glass" | "elevated" | "flat";
+}
 
 function Card({
   className,
-  size = "default",
+  variant = "default",
   ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+}: CardProps) {
   return (
     <div
       data-slot="card"
-      data-size={size}
+      data-variant={variant}
       className={cn(
-        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        // ── Base ────────────────────────────────────────────────
+        "group/card relative flex flex-col overflow-hidden",
+        "rounded-[20px]",                         // spec: 20px card radius
+        "text-sm text-foreground",
+
+        // ── Default variant ──────────────────────────────────────
+        variant === "default" && [
+          "border border-apyx-border bg-apyx-surface",
+          // Hover: lift 2px + border highlight + shadow per spec § 9
+          "transition-all duration-[250ms]",
+          "hover:-translate-y-0.5",
+          "hover:border-apyx-purple/40",
+          "hover:shadow-[0_8px_24px_rgba(176,38,255,0.1)]",
+        ],
+
+        // ── Glass variant ────────────────────────────────────────
+        variant === "glass" && [
+          "glass-card",
+          "transition-all duration-[250ms]",
+          "hover:-translate-y-0.5",
+          "hover:shadow-[0_8px_24px_rgba(176,38,255,0.12)]",
+        ],
+
+        // ── Elevated variant ─────────────────────────────────────
+        variant === "elevated" && [
+          "border border-apyx-border bg-apyx-surface",
+          "shadow-[0_4px_16px_rgba(0,0,0,0.4)]",
+          "transition-all duration-[250ms]",
+          "hover:-translate-y-1",
+          "hover:border-apyx-purple/50",
+          "hover:shadow-[0_12px_32px_rgba(176,38,255,0.2)]",
+        ],
+
+        // ── Flat variant — no hover ──────────────────────────────
+        variant === "flat" && [
+          "border border-apyx-border bg-apyx-surface",
+        ],
+
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
+/* ── CardHeader ────────────────────────────────────────────────────── */
+
+function CardHeader({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-header"
       className={cn(
-        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
+        "flex flex-col gap-1 px-6 pt-6",
+        // Action slot support: title + action side-by-side
+        "has-data-[slot=card-action]:flex-row has-data-[slot=card-action]:items-start",
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
+/* ── CardTitle ─────────────────────────────────────────────────────── */
+
+function CardTitle({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-title"
       className={cn(
-        "font-heading text-base leading-snug font-medium group-data-[size=sm]/card:text-sm",
+        "font-heading text-lg font-bold leading-snug text-white flex-1",
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
+/* ── CardDescription ───────────────────────────────────────────────── */
+
+function CardDescription({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-description"
-      className={cn("text-sm text-muted-foreground", className)}
+      className={cn("text-sm text-apyx-text-secondary leading-relaxed", className)}
       {...props}
     />
-  )
+  );
 }
 
-function CardAction({ className, ...props }: React.ComponentProps<"div">) {
+/* ── CardAction ────────────────────────────────────────────────────── */
+
+/** Right-aligned action slot in the card header */
+function CardAction({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-action"
-      className={cn(
-        "col-start-2 row-span-2 row-start-1 self-start justify-self-end",
-        className
-      )}
+      className={cn("ml-auto flex-shrink-0 self-start", className)}
       {...props}
     />
-  )
+  );
 }
 
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
+/* ── CardContent ───────────────────────────────────────────────────── */
+
+function CardContent({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-content"
-      className={cn("px-(--card-spacing)", className)}
+      className={cn("px-6 py-4", className)}
       {...props}
     />
-  )
+  );
 }
 
-function CardFooter({ className, ...props }: React.ComponentProps<"div">) {
+/* ── CardFooter ────────────────────────────────────────────────────── */
+
+function CardFooter({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card-footer"
       className={cn(
-        "flex items-center rounded-b-xl border-t bg-muted/50 p-(--card-spacing)",
+        "flex items-center gap-2 px-6 pb-6 pt-0",
+        // Optional border-top for footers with `border-t` class
+        "[.border-t]:pt-4",
         className
       )}
       {...props}
     />
-  )
+  );
 }
 
 export {
@@ -100,4 +197,4 @@ export {
   CardAction,
   CardDescription,
   CardContent,
-}
+};

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { deleteTeamMember } from "@/app/actions/team";
+import { AdminTable } from "@/components/ui/admin-table";
 
 export const metadata: Metadata = {
   title: "Manage Team | Admin",
@@ -39,77 +40,64 @@ export default async function AdminTeamPage() {
         </div>
       )}
 
-      <div className="bg-apyx-surface border border-apyx-border rounded-2xl overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm text-apyx-text-secondary">
-            <thead className="bg-apyx-bg border-b border-apyx-border text-xs uppercase font-semibold text-white">
-              <tr>
-                <th className="px-6 py-4">Member</th>
-                <th className="px-6 py-4">Position</th>
-                <th className="px-6 py-4">Generation</th>
-                <th className="px-6 py-4">Socials</th>
-                <th className="px-6 py-4 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-apyx-border">
-              {!teamMembers || teamMembers.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center text-apyx-text-muted">
-                    No team members found. Click &quot;Add Member&quot; to create one.
-                  </td>
-                </tr>
-              ) : (
-                teamMembers.map((member) => (
-                  <tr key={member.id} className="hover:bg-white/5 transition-colors">
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        {member.photo ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={member.photo} alt={member.name} className="w-10 h-10 rounded-full object-cover" />
-                        ) : (
-                          <div className="w-10 h-10 rounded-full bg-apyx-bg border border-apyx-border flex items-center justify-center text-apyx-text-muted">
-                            <User className="w-5 h-5" />
-                          </div>
-                        )}
-                        <div>
-                          <p className="font-bold text-white text-base">{member.name}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4">
-                      <span className="inline-flex px-2 py-1 rounded bg-apyx-purple/10 text-apyx-purple border border-apyx-purple/20 text-xs font-semibold">
-                        {member.position}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      {member.generation}
-                    </td>
-                    <td className="px-6 py-4 text-xs">
-                      <div className="flex flex-col gap-1">
-                        {member.linkedin && <a href={member.linkedin} target="_blank" className="hover:text-apyx-blue">LinkedIn</a>}
-                        {member.github && <a href={member.github} target="_blank" className="hover:text-white">GitHub</a>}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
-                      <Link href={`/admin/team/${member.id}/edit`} className="p-2 text-apyx-text-muted hover:text-white transition-colors" title="Edit Member">
-                        <Edit2 className="w-4 h-4" />
-                      </Link>
-                      <form action={async () => {
-                        "use server";
-                        await deleteTeamMember(member.id);
-                      }}>
-                        <button type="submit" className="p-2 text-apyx-text-muted hover:text-red-500 transition-colors" title="Delete Member">
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </form>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <AdminTable
+        columns={[
+          { key: "member", label: "Member" },
+          { key: "position", label: "Position" },
+          { key: "generation", label: "Generation" },
+          { key: "socials", label: "Socials" },
+          { key: "actions", label: "Actions", align: "right" },
+        ]}
+        data={teamMembers || []}
+        keyExtractor={(member) => member.id}
+        emptyMessage="No team members found. Click 'Add Member' to create one."
+        renderRow={(member) => (
+          <>
+            <td className="px-6 py-4">
+              <div className="flex items-center gap-3">
+                {member.photo ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={member.photo} alt={member.name} className="w-10 h-10 rounded-full object-cover" />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-apyx-bg border border-apyx-border flex items-center justify-center text-apyx-text-muted">
+                    <User className="w-5 h-5" />
+                  </div>
+                )}
+                <div>
+                  <p className="font-bold text-white text-base">{member.name}</p>
+                </div>
+              </div>
+            </td>
+            <td className="px-6 py-4">
+              <span className="inline-flex px-2 py-1 rounded bg-apyx-purple/10 text-apyx-purple border border-apyx-purple/20 text-xs font-semibold">
+                {member.position}
+              </span>
+            </td>
+            <td className="px-6 py-4">
+              {member.generation}
+            </td>
+            <td className="px-6 py-4 text-xs">
+              <div className="flex flex-col gap-1">
+                {member.linkedin && <a href={member.linkedin} target="_blank" className="hover:text-apyx-blue">LinkedIn</a>}
+                {member.github && <a href={member.github} target="_blank" className="hover:text-white">GitHub</a>}
+              </div>
+            </td>
+            <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
+              <Link href={`/admin/team/${member.id}/edit`} className="p-2 text-apyx-text-muted hover:text-white transition-colors" title="Edit Member">
+                <Edit2 className="w-4 h-4" />
+              </Link>
+              <form action={async () => {
+                "use server";
+                await deleteTeamMember(member.id);
+              }}>
+                <button type="submit" className="p-2 text-apyx-text-muted hover:text-red-500 transition-colors" title="Delete Member">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </form>
+            </td>
+          </>
+        )}
+      />
     </div>
   );
 }

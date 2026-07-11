@@ -1,29 +1,37 @@
-import { Inter, JetBrains_Mono } from 'next/font/google';
-import localFont from 'next/font/local';
+/**
+ * APYX Font Configuration
+ * Source: .ai/03-design-system.md — Typography System
+ *
+ * Fonts:
+ *  - Outfit     → Headings (font-heading)
+ *  - Inter      → Body / UI text (font-sans)
+ *  - JetBrains  → Code / monospace (font-mono)
+ *
+ * Note: Playfair Display removed — it was loaded but unused (saves ~30kB).
+ */
 
+import { Inter, Outfit, JetBrains_Mono } from "next/font/google";
+
+/** Inter — body text, UI labels, captions */
 export const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
 });
 
-export const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  variable: '--font-mono',
-  display: 'swap',
-});
-
-// Outfit for headings — loaded via next/font/google
-import { Outfit, Playfair_Display } from 'next/font/google';
-
+/** Outfit — all headings, display text */
 export const outfit = Outfit({
-  subsets: ['latin'],
-  variable: '--font-outfit',
-  display: 'swap',
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });
 
-export const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-serif',
-  display: 'swap',
+/** JetBrains Mono — code blocks, technical labels */
+export const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+  weight: ["400", "500", "600"],
 });

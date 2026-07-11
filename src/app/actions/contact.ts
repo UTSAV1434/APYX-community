@@ -1,24 +1,23 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
+import { parseContactFormData } from "@/lib/contact-form";
 import { revalidatePath } from "next/cache";
 
 export async function submitContactForm(formData: FormData) {
-  const supabase = await createClient();
-
-  const name = formData.get("name") as string;
-  const email = formData.get("email") as string;
-  const message = formData.get("message") as string;
-
-  if (!name || !email || !message) {
-    return { error: "All fields are required." };
+  const parsed = parseContactFormData(formData);
+  if (parsed.error || !parsed.data) {
+    return { error: parsed.error ?? "Invalid form data" };
   }
 
+  const supabase = await createClient();
+
   const { error } = await supabase.from("contact_submissions").insert({
-    name,
-    email,
-    message,
-  } as any);
+    name: parsed.data.name,
+    email: parsed.data.email,
+    message: parsed.data.message,
+    subject: parsed.data.subject,
+  });
 
   if (error) {
     console.error("Error submitting contact form:", error);

@@ -134,6 +134,7 @@ export interface GalleryItem {
   url: string;
   caption: string | null;
   sort_order: number;
+  created_at: string;
 }
 
 export interface Resource {
@@ -201,69 +202,145 @@ export interface ActivityLogEntry {
 
 // ─── Supabase Database Type Map ──────────────────────────────────
 
-export interface Database {
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[];
+
+type DefaultRelationship = {
+  foreignKeyName: string;
+  columns: string[];
+  isOneToOne?: boolean;
+  referencedRelation: string;
+  referencedColumns: string[];
+};
+
+type Table<
+  Row extends Record<string, unknown>,
+  Insert extends Record<string, unknown>,
+  Update extends Record<string, unknown> = Partial<Insert>,
+  Relationships extends DefaultRelationship[] = [],
+> = {
+  Row: Row;
+  Insert: Insert;
+  Update: Update;
+  Relationships: Relationships;
+};
+
+export type Database = {
   public: {
     Tables: {
-      events: {
-        Row: Event;
-        Insert: Omit<Event, 'id' | 'created_at' | 'updated_at'>;
-        Update: Partial<Omit<Event, 'id' | 'created_at' | 'updated_at'>>;
-      };
-      event_people: {
-        Row: EventPerson;
-        Insert: Omit<EventPerson, 'id'>;
-        Update: Partial<Omit<EventPerson, 'id'>>;
-      };
-      event_sponsors: {
-        Row: EventSponsor;
-        Insert: Omit<EventSponsor, 'id'>;
-        Update: Partial<Omit<EventSponsor, 'id'>>;
-      };
-      announcements: {
-        Row: Announcement;
-        Insert: Omit<Announcement, 'id' | 'created_at'>;
-        Update: Partial<Omit<Announcement, 'id' | 'created_at'>>;
-      };
-      gallery_albums: {
-        Row: GalleryAlbum;
-        Insert: Omit<GalleryAlbum, 'id' | 'created_at'>;
-        Update: Partial<Omit<GalleryAlbum, 'id' | 'created_at'>>;
-      };
-      gallery_items: {
-        Row: GalleryItem;
-        Insert: Omit<GalleryItem, 'id'>;
-        Update: Partial<Omit<GalleryItem, 'id'>>;
-      };
-      resources: {
-        Row: Resource;
-        Insert: Omit<Resource, 'id' | 'created_at'>;
-        Update: Partial<Omit<Resource, 'id' | 'created_at'>>;
-      };
-      team_members: {
-        Row: TeamMember;
-        Insert: Omit<TeamMember, 'id'>;
-        Update: Partial<Omit<TeamMember, 'id'>>;
-      };
-      partners: {
-        Row: Partner;
-        Insert: Omit<Partner, 'id'>;
-        Update: Partial<Omit<Partner, 'id'>>;
-      };
-      contact_submissions: {
-        Row: ContactSubmission;
-        Insert: Omit<ContactSubmission, 'id' | 'created_at'>;
-        Update: Partial<Omit<ContactSubmission, 'id' | 'created_at'>>;
-      };
-      newsletter_subscribers: {
-        Row: NewsletterSubscriber;
-        Insert: Omit<NewsletterSubscriber, 'id' | 'subscribed_at'>;
-        Update: Partial<Omit<NewsletterSubscriber, 'id' | 'subscribed_at'>>;
-      };
-      activity_log: {
-        Row: ActivityLogEntry;
-        Insert: Omit<ActivityLogEntry, 'id' | 'created_at'>;
-        Update: Partial<Omit<ActivityLogEntry, 'id' | 'created_at'>>;
-      };
+      events: Table<
+        Event & Record<string, unknown>,
+        Omit<Event, "id" | "created_at" | "updated_at"> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        }
+      >;
+      event_people: Table<
+        EventPerson & Record<string, unknown>,
+        Omit<EventPerson, "id"> & { id?: string }
+      >;
+      event_sponsors: Table<
+        EventSponsor & Record<string, unknown>,
+        Omit<EventSponsor, "id"> & { id?: string }
+      >;
+      announcements: Table<
+        Announcement & Record<string, unknown>,
+        Omit<Announcement, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        }
+      >;
+      gallery_albums: Table<
+        GalleryAlbum & Record<string, unknown>,
+        Omit<GalleryAlbum, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        },
+        Partial<Omit<GalleryAlbum, "id" | "created_at"> & { id?: string; created_at?: string }>,
+        [
+          {
+            foreignKeyName: "gallery_items_album_id_fkey";
+            columns: ["id"];
+            isOneToOne: false;
+            referencedRelation: "gallery_items";
+            referencedColumns: ["album_id"];
+          },
+          {
+            foreignKeyName: "gallery_albums_event_id_fkey";
+            columns: ["event_id"];
+            isOneToOne: false;
+            referencedRelation: "events";
+            referencedColumns: ["id"];
+          },
+        ]
+      >;
+      gallery_items: Table<
+        GalleryItem & Record<string, unknown>,
+        Omit<GalleryItem, "id" | "created_at"> & { id?: string; created_at?: string },
+        Partial<Omit<GalleryItem, "id" | "created_at"> & { id?: string; created_at?: string }>,
+        [
+          {
+            foreignKeyName: "gallery_items_album_id_fkey";
+            columns: ["album_id"];
+            isOneToOne: false;
+            referencedRelation: "gallery_albums";
+            referencedColumns: ["id"];
+          },
+        ]
+      >;
+      resources: Table<
+        Resource & Record<string, unknown>,
+        Omit<Resource, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        }
+      >;
+      team_members: Table<
+        TeamMember & Record<string, unknown>,
+        Omit<TeamMember, "id"> & { id?: string }
+      >;
+      partners: Table<
+        Partner & Record<string, unknown>,
+        Omit<Partner, "id"> & { id?: string }
+      >;
+      contact_submissions: Table<
+        ContactSubmission & Record<string, unknown>,
+        Omit<ContactSubmission, "id" | "created_at" | "is_read" | "subject"> & {
+          id?: string;
+          created_at?: string;
+          is_read?: boolean;
+          subject?: string | null;
+        }
+      >;
+      newsletter_subscribers: Table<
+        NewsletterSubscriber & Record<string, unknown>,
+        Omit<NewsletterSubscriber, "id" | "subscribed_at"> & {
+          id?: string;
+          subscribed_at?: string;
+        }
+      >;
+      activity_log: Table<
+        ActivityLogEntry & Record<string, unknown>,
+        Omit<ActivityLogEntry, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        }
+      >;
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
   };
-}
+};
+
+export type Tables<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Row"];
+export type TablesInsert<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Insert"];
+export type TablesUpdate<T extends keyof Database["public"]["Tables"]> =
+  Database["public"]["Tables"][T]["Update"];
