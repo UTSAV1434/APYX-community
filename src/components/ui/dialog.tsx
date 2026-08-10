@@ -56,8 +56,8 @@ function DialogOverlay({
       className={cn(
         // Base
         "fixed inset-0 isolate z-50",
-        // APYX spec: black/80 + backdrop blur
-        "bg-black/80 backdrop-blur-md",
+        // APYX spec: black/60 + backdrop blur xl
+        "bg-black/60 backdrop-blur-xl",
         // Base UI animation hooks
         "duration-[250ms] supports-backdrop-filter:backdrop-blur-md",
         "data-open:animate-in data-open:fade-in-0",

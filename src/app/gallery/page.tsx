@@ -40,7 +40,7 @@ export default async function GalleryPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             {albums.map((album, index) => (
-              <div key={album.id} className="w-full min-w-full" style={{ width: '100%', minWidth: '100%' }}>
+              <div key={album.id} className="w-full min-w-full">
                 <ScrollReveal delay={index * 0.1} className="w-full h-full block">
                   <AlbumCard album={album} />
                 </ScrollReveal>

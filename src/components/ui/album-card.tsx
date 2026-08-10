@@ -20,17 +20,16 @@ function getPhotoCount(album: any): number {
   return album.gallery_items?.count ?? 0;
 }
 
-import { motion } from "framer-motion";
-import { cardMotion } from "@/lib/motion";
+
 import { Card, CardContent } from "./card";
 
 export function AlbumCard({ album }: AlbumCardProps) {
   const photoCount = getPhotoCount(album);
 
   return (
-    <motion.div {...cardMotion} className="w-full h-full flex flex-col" style={{ width: '100%', minWidth: '100%' }}>
-      <Link href={`/gallery/${album.id}`} className="block w-full h-full outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple rounded-[20px]" style={{ width: '100%', display: 'block' }}>
-        <Card variant="glass" className="w-full h-full group p-0 overflow-hidden" style={{ width: '100%' }}>
+    <div className="w-full h-full flex flex-col">
+      <Link href={`/gallery/${album.id}`} className="block w-full h-full outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple rounded-[20px]">
+        <Card variant="glass" className="w-full h-full group p-0 overflow-hidden cursor-pointer">
           <div className="relative w-full aspect-[4/3] overflow-hidden bg-apyx-bg shrink-0">
             {album.cover_image ? (
               <Image 
@@ -59,6 +58,6 @@ export function AlbumCard({ album }: AlbumCardProps) {
           </CardContent>
         </Card>
       </Link>
-    </motion.div>
+    </div>
   );
 }

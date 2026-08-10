@@ -4,6 +4,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { SPRINGS } from "@/lib/motion";
 import { Heading, Text } from "@/components/ui/typography";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
@@ -44,7 +45,7 @@ export function HeroSection({ heroData }: HeroSectionProps) {
     setBtnPos({ x: 0, y: 0 });
   };
 
-  const transition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] as const };
+  const transition = SPRINGS.slow;
 
   return (
     <section 

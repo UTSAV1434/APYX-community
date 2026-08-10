@@ -21,11 +21,13 @@
  */
 
 import * as React from "react";
+import { motion, HTMLMotionProps } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { cardMotion } from "@/lib/motion";
 
 /* ── Card ──────────────────────────────────────────────────────────── */
 
-interface CardProps extends React.ComponentProps<"div"> {
+interface CardProps extends HTMLMotionProps<"div"> {
   /** Visual style variant */
   variant?: "default" | "glass" | "elevated" | "flat";
 }
@@ -34,11 +36,14 @@ function Card({
   className,
   variant = "default",
   ...props
-}: CardProps) {
+}: CardProps, ref: React.Ref<HTMLDivElement>) {
   return (
-    <div
+    <motion.div
+      ref={ref}
       data-slot="card"
       data-variant={variant}
+      whileHover={cardMotion.whileHover}
+      whileTap={cardMotion.whileTap}
       className={cn(
         // ── Base ────────────────────────────────────────────────
         "group/card relative w-full flex flex-col overflow-hidden",
@@ -48,9 +53,7 @@ function Card({
         // ── Default variant ──────────────────────────────────────
         variant === "default" && [
           "border border-apyx-border bg-apyx-surface",
-          // Hover: lift 2px + border highlight + shadow per spec § 9
-          "transition-all duration-[250ms]",
-          "hover:-translate-y-0.5",
+          // Hover: border highlight + shadow per spec § 9 (motion handles scale/lift)
           "hover:border-apyx-purple/40",
           "hover:shadow-[0_8px_24px_rgba(176,38,255,0.1)]",
         ],
@@ -58,8 +61,6 @@ function Card({
         // ── Glass variant ────────────────────────────────────────
         variant === "glass" && [
           "glass-card",
-          "transition-all duration-[250ms]",
-          "hover:-translate-y-0.5",
           "hover:shadow-[0_8px_24px_rgba(176,38,255,0.12)]",
         ],
 
@@ -67,23 +68,25 @@ function Card({
         variant === "elevated" && [
           "border border-apyx-border bg-apyx-surface",
           "shadow-[0_4px_16px_rgba(0,0,0,0.4)]",
-          "transition-all duration-[250ms]",
-          "hover:-translate-y-1",
           "hover:border-apyx-purple/50",
           "hover:shadow-[0_12px_32px_rgba(176,38,255,0.2)]",
         ],
 
-        // ── Flat variant — no hover ──────────────────────────────
+        // ── Flat variant ─────────────────────────────────────────
         variant === "flat" && [
-          "border border-apyx-border bg-apyx-surface",
+          "border-transparent bg-apyx-bg-alt/50",
+          "hover:bg-apyx-bg-alt",
         ],
-
+        
         className
       )}
       {...props}
     />
   );
 }
+
+const ForwardedCard = React.forwardRef(Card);
+ForwardedCard.displayName = "Card";
 
 /* ── CardHeader ────────────────────────────────────────────────────── */
 
@@ -190,7 +193,7 @@ function CardFooter({
 }
 
 export {
-  Card,
+  ForwardedCard as Card,
   CardHeader,
   CardFooter,
   CardTitle,

@@ -234,9 +234,25 @@
     outline-offset: -2px !important;
   }
 
-  /* Headings default to heading font */
+  /* Headings default to heading font and apply optical sizing */
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading;
+    font-optical-sizing: auto;
+  }
+
+  /* Apple-style typography: tight tracking for large text */
+  h1, h2, .text-4xl, .text-5xl, .text-6xl, .text-7xl, .text-8xl, .text-9xl {
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  h3, h4, .text-2xl, .text-3xl {
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  p, span, div, .text-sm, .text-base, .text-lg {
+    letter-spacing: 0.005em; /* slightly positive for readability */
   }
 }
 

@@ -56,7 +56,7 @@ function SheetOverlay({
       className={cn(
         "fixed inset-0 z-50",
         // APYX spec: same backdrop as dialog
-        "bg-black/80 backdrop-blur-md",
+        "bg-black/60 backdrop-blur-xl",
         "transition-opacity duration-[250ms]",
         "data-ending-style:opacity-0 data-starting-style:opacity-0",
         className

@@ -29,39 +29,46 @@ export const DURATIONS = {
 /* Source: .ai/09-animation-specifications.md § 2. Motion Tokens      */
 
 export const EASINGS = {
-  /** Entrance: fast start, decelerate smoothly */
-  entrance: [0.16, 1, 0.3, 1] as [number, number, number, number],
-  /** Exit: fast deceleration, sharp end */
-  exit:     [0.7, 0, 0.84, 0] as [number, number, number, number],
-  /** Standard: symmetric ease-in-out */
+  /** Standard easing for non-spring or non-interactive (e.g. reduced motion) */
   standard: "easeInOut" as const,
-  /** Spring: stiffness 200, damping 25 */
-  spring:   { type: "spring", stiffness: 200, damping: 25 } as const,
+  /** Legacy fallbacks for reduced-motion */
+  entrance: [0.16, 1, 0.3, 1] as [number, number, number, number],
+  exit:     [0.7, 0, 0.84, 0] as [number, number, number, number],
+} as const;
+
+/* ── Apple Spring Tokens ───────────────────────────────────────────── */
+/* Source: Apple WWDC Designing Fluid Interfaces                        */
+export const SPRINGS = {
+  // Critically damped default (no overshoot), standard UI feeling
+  ui: { type: "spring", bounce: 0, duration: 0.4 } as const,
+  // Snappier UI (hover, press, quick modal)
+  snappy: { type: "spring", bounce: 0, duration: 0.25 } as const,
+  // Momentum interaction — a little bounce (flick, drag release)
+  bouncy: { type: "spring", bounce: 0.2, duration: 0.4 } as const,
+  // Very subtle spring for large, slow entrances
+  slow: { type: "spring", bounce: 0, duration: 0.7 } as const,
 } as const;
 
 /* ── Shared Transitions ────────────────────────────────────────────── */
 
 /** Standard entrance transition */
 export const transitionEntrance: Transition = {
-  duration: DURATIONS.standard,
-  ease:     EASINGS.entrance,
+  ...SPRINGS.ui
 };
 
 /** Fast UI transition (hover states, focus) */
 export const transitionFast: Transition = {
-  duration: DURATIONS.fast,
-  ease:     EASINGS.standard,
+  ...SPRINGS.snappy
 };
 
 /** Slow entrance for hero elements */
 export const transitionSlow: Transition = {
-  duration: DURATIONS.slow,
-  ease:     EASINGS.entrance,
+  ...SPRINGS.slow
 };
 
 /** Spring transition for interactive elements */
 export const transitionSpring: Transition = {
-  ...EASINGS.spring,
+  ...SPRINGS.bouncy
 };
 
 /* ── Section Reveal Variants ───────────────────────────────────────── */
@@ -211,14 +218,14 @@ export const pageTransition: Variants = {
 
 /** Button hover/press motion props */
 export const buttonMotion = {
-  whileHover: { scale: 1.02, y: -1 },
-  whileTap:   { scale: 0.98, y: 0 },
-  transition: transitionFast,
+  whileHover: { scale: 0.98, transition: SPRINGS.snappy },
+  whileTap:   { scale: 0.95, transition: SPRINGS.snappy },
 } as const;
 
 /** Card hover motion props */
 export const cardMotion = {
-  whileHover: { y: -2, transition: transitionFast },
+  whileHover: { y: -4, transition: SPRINGS.ui },
+  whileTap:   { scale: 0.98, transition: SPRINGS.snappy },
 } as const;
 
 /* ── Utility: Viewport settings ────────────────────────────────────── */

@@ -12,6 +12,8 @@ import { Heading, Text } from "@/components/ui/typography";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+import { cardMotion } from "@/lib/motion";
 
 // ────────────────────────────────────────────────────────────────────────────
 // COMPOUND COMPONENTS
@@ -28,21 +30,27 @@ const EventCardRoot = React.forwardRef<HTMLDivElement, EventCardRootProps>(
     const isInteractive = interactive && !disabled;
 
     return (
-      <Surface
-        ref={ref as any}
-        variant="elevated"
-        radius="2xl"
-        padding="none"
+      <motion.div
+        whileHover={isInteractive ? cardMotion.whileHover : undefined}
+        whileTap={isInteractive ? cardMotion.whileTap : undefined}
         className={cn(
-          "group flex flex-col overflow-hidden h-full relative",
-          isInteractive && "hover:-translate-y-1 hover:shadow-floating-lg transition-all duration-700 ease-out",
+          "group flex flex-col overflow-hidden h-full relative h-full",
+          isInteractive && "cursor-pointer",
           disabled && "opacity-60 cursor-not-allowed",
           className
         )}
-        {...props}
       >
-        {children}
-      </Surface>
+        <Surface
+          ref={ref as any}
+          variant="elevated"
+          radius="2xl"
+          padding="none"
+          className="h-full w-full relative"
+          {...props}
+        >
+          {children}
+        </Surface>
+      </motion.div>
     );
   }
 );
