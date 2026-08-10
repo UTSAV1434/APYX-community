@@ -22,7 +22,7 @@ export async function getTeamMembers(activeOnly = false) {
   const { data, error } = await query;
 
   if (error) {
-    console.error("Error fetching team members:", error);
+    console.error("Error fetching team members:", error?.message || "Unknown error");
     return [];
   }
 

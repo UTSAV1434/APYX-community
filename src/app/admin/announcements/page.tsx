@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { deleteAnnouncement, getAnnouncements } from "@/app/actions/announcements";
 import { AdminTable } from "@/components/ui/admin-table";
+import { formatDate } from "@/lib/format-date";
 
 export const metadata: Metadata = {
   title: "Manage Announcements | Admin",
@@ -58,7 +59,7 @@ export default async function AdminAnnouncementsPage() {
                 {item.category.replace('_', ' ')}
               </span>
             </td>
-            <td className="px-6 py-4">{new Date(item.published_at).toLocaleDateString()}</td>
+            <td className="px-6 py-4">{formatDate(item.published_at)}</td>
             <td className="px-6 py-4">
               {item.is_pinned && <span className="text-apyx-cyan text-xs">Pinned</span>}
             </td>

@@ -38,11 +38,13 @@ export default async function GalleryPage() {
             <p className="text-apyx-text-secondary text-lg">No albums have been published yet.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
             {albums.map((album, index) => (
-              <ScrollReveal key={album.id} delay={index * 0.1}>
-                <AlbumCard album={album} />
-              </ScrollReveal>
+              <div key={album.id} className="w-full min-w-full" style={{ width: '100%', minWidth: '100%' }}>
+                <ScrollReveal delay={index * 0.1} className="w-full h-full block">
+                  <AlbumCard album={album} />
+                </ScrollReveal>
+              </div>
             ))}
           </div>
         )}

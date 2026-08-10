@@ -200,6 +200,13 @@ export interface ActivityLogEntry {
   created_at: string;
 }
 
+export interface SiteSetting {
+  id: string;
+  key: string;
+  value: Json;
+  updated_at: string;
+}
+
 // ─── Supabase Database Type Map ──────────────────────────────────
 
 export type Json =
@@ -233,6 +240,13 @@ type Table<
 export type Database = {
   public: {
     Tables: {
+      site_settings: Table<
+        SiteSetting & Record<string, unknown>,
+        Omit<SiteSetting, "id" | "updated_at"> & {
+          id?: string;
+          updated_at?: string;
+        }
+      >;
       events: Table<
         Event & Record<string, unknown>,
         Omit<Event, "id" | "created_at" | "updated_at"> & {

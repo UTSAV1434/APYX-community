@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { Megaphone, Calendar } from "lucide-react";
 import { getAnnouncements } from "@/app/actions/announcements";
+import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/lib/format-date";
 
 export const metadata: Metadata = {
   title: "Announcements",
@@ -50,7 +52,7 @@ export default async function AnnouncementsPage() {
                       )}
                       <span className="flex items-center text-sm text-apyx-text-muted gap-1.5">
                         <Calendar className="w-4 h-4" />
-                        {new Date(update.published_at).toLocaleDateString()}
+                        {formatDate(update.published_at)}
                       </span>
                     </div>
 

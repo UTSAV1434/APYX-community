@@ -41,7 +41,7 @@ function Card({
       data-variant={variant}
       className={cn(
         // ── Base ────────────────────────────────────────────────
-        "group/card relative flex flex-col overflow-hidden",
+        "group/card relative w-full flex flex-col overflow-hidden",
         "rounded-[20px]",                         // spec: 20px card radius
         "text-sm text-foreground",
 

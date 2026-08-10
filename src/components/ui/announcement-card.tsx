@@ -8,6 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./card";
 import { Badge } from "./badge";
 import { cardMotion } from "@/lib/motion";
 import { RadialGlow } from "./experience/backgrounds";
+import { formatDate } from "@/lib/format-date";
 
 interface AnnouncementCardProps {
   announcement: Announcement;
@@ -30,7 +31,7 @@ export function AnnouncementCard({ announcement }: AnnouncementCardProps) {
               </Badge>
               <span className="flex items-center gap-1.5 text-xs font-medium text-apyx-text-muted">
                 <Clock className="w-3.5 h-3.5" />
-                {new Date(announcement.published_at || announcement.created_at).toLocaleDateString()}
+                {formatDate(announcement.published_at || announcement.created_at)}
               </span>
             </div>
             <CardTitle className="group-hover:text-apyx-purple transition-colors line-clamp-2">

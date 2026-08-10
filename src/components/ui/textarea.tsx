@@ -168,15 +168,18 @@ export const TextareaControl = React.forwardRef<HTMLTextAreaElement, TextareaCon
           : "resize";
 
     return (
-      <div className={cn("flex flex-col gap-1.5", fullWidth ? "w-full" : "w-auto", className)}>
+      <div className={cn("flex flex-col gap-1.5", fullWidth ? "w-full" : "w-auto")}>
         <div
-          className={textareaWrapperVariants({
-            variant,
-            size,
-            state,
-            disabled,
-            fullWidth,
-          })}
+          className={cn(
+            textareaWrapperVariants({
+              variant,
+              size,
+              state,
+              disabled,
+              fullWidth,
+            }),
+            className
+          )}
         >
           <textarea
             {...props}
@@ -239,6 +242,7 @@ export interface TextareaProps extends TextareaControlProps {
   success?: string | boolean;
   warning?: string | boolean;
   validationState?: "default" | "success" | "warning" | "error";
+  containerClassName?: string;
 }
 
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
@@ -252,14 +256,15 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       validationState,
       required,
       className,
+      containerClassName,
       ...props
     },
     ref
   ) => {
     return (
-      <Field error={error} success={success} warning={warning} validationState={validationState} className={className}>
+      <Field error={error} success={success} warning={warning} validationState={validationState} className={containerClassName}>
         {label && <FieldLabel required={required}>{label}</FieldLabel>}
-        <TextareaControl ref={ref} required={required} {...props} />
+        <TextareaControl ref={ref} required={required} className={className} {...props} />
         <FieldErrorMessage />
         <FieldWarningMessage />
         <FieldSuccessMessage />

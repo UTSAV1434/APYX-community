@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
 import { Image as ImageIcon } from "lucide-react";
 import type { GalleryAlbum } from "@/types/database";
 
@@ -10,7 +13,10 @@ interface AlbumCardProps {
   album: AlbumWithItemCount;
 }
 
-function getPhotoCount(album: AlbumWithItemCount): number {
+function getPhotoCount(album: any): number {
+  if (Array.isArray(album.gallery_items)) {
+    return album.gallery_items[0]?.count ?? 0;
+  }
   return album.gallery_items?.count ?? 0;
 }
 
@@ -22,16 +28,17 @@ export function AlbumCard({ album }: AlbumCardProps) {
   const photoCount = getPhotoCount(album);
 
   return (
-    <motion.div {...cardMotion} className="h-full flex flex-col">
-      <Link href={`/gallery/${album.id}`} className="block h-full outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple rounded-[20px]">
-        <Card variant="glass" className="h-full group p-0 overflow-hidden">
-          <div className="relative aspect-[4/3] overflow-hidden bg-apyx-bg shrink-0">
+    <motion.div {...cardMotion} className="w-full h-full flex flex-col" style={{ width: '100%', minWidth: '100%' }}>
+      <Link href={`/gallery/${album.id}`} className="block w-full h-full outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple rounded-[20px]" style={{ width: '100%', display: 'block' }}>
+        <Card variant="glass" className="w-full h-full group p-0 overflow-hidden" style={{ width: '100%' }}>
+          <div className="relative w-full aspect-[4/3] overflow-hidden bg-apyx-bg shrink-0">
             {album.cover_image ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img 
+              <Image 
                 src={album.cover_image} 
                 alt={album.title} 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
               />
             ) : (
               <div className="absolute inset-0 flex items-center justify-center text-apyx-text-muted">

@@ -1,29 +1,16 @@
+import { Suspense } from "react";
 import { HeroSection } from "@/components/home/hero-section";
-import { FeaturedEvent } from "@/components/home/featured-event";
-import { ActivityFeed } from "@/components/home/activity-feed";
-import { AnnouncementsPreview } from "@/components/home/announcements-preview";
-import { EventCardGrid } from "@/components/home/event-grid";
-import { ImpactSection } from "@/components/home/impact-section";
-import { GalleryPreview } from "@/components/home/gallery-preview";
-import { JoinCTA } from "@/components/home/join-cta";
+import { FoundationSection } from "@/components/home/foundation-section";
+import { ArtifactsSection } from "@/components/home/artifacts-section";
+import { MomentumSection } from "@/components/home/momentum-section";
+import { BuildersSection } from "@/components/home/builders-section";
+import { ThresholdSection } from "@/components/home/threshold-section";
 import { createClient } from "@/lib/supabase/server";
+import { getSetting } from "@/app/actions/settings";
 
-export default async function Home() {
+async function MomentumDataFetcher() {
   const supabase = await createClient();
-
-  const { data: galleryPhotos } = await supabase
-    .from("gallery_items")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false })
-    .limit(6);
-
-  const { data: announcements } = await supabase
-    .from("announcements")
-    .select("*")
-    .order("is_pinned", { ascending: false })
-    .order("published_at", { ascending: false })
-    .limit(3);
+  
   const { data: featuredEvent } = await supabase
     .from("events")
     .select("*")
@@ -37,40 +24,37 @@ export default async function Home() {
     .limit(3);
 
   const events = eventsData ?? [];
+  
+  return <MomentumSection featuredEvent={featuredEvent} upcomingEvents={events} />;
+}
+
+export default async function Home() {
+  const homeHero = await getSetting<any>("home_hero");
+  const homeFoundation = await getSetting<any>("home_foundation");
+  const homeBuilders = await getSetting<any>("home_builders");
+  const homeArtifacts = await getSetting<any>("home_artifacts");
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* 1. Hero Section (Includes Interactive Bg) */}
-      <HeroSection />
+      {/* 1. The Genesis (Hero) */}
+      <HeroSection heroData={homeHero} />
 
-      {/* 2. Featured Event */}
-      <div className="-mt-32 pt-32">
-        <FeaturedEvent event={featuredEvent || undefined} />
-      </div>
+      {/* 2. The Foundation */}
+      <FoundationSection foundationData={homeFoundation} />
 
-      {/* 3. Live Dashboard (Activity + Announcements) */}
-      <section className="section-padding container-wide relative z-10">
-        <div className="grid lg:grid-cols-3 gap-6 lg:gap-8 min-h-[500px]">
-          <div className="lg:col-span-1">
-            <ActivityFeed />
-          </div>
-          <div className="lg:col-span-2">
-            <AnnouncementsPreview announcements={announcements || []} />
-          </div>
-        </div>
-      </section>
+      {/* 3. The Artifacts */}
+      <ArtifactsSection artifactsData={homeArtifacts} />
 
-      {/* 4. Event Grid (Upcoming + Past) */}
-      <EventCardGrid events={events || []} />
+      {/* 4. Momentum (Replaces Activity + Events) */}
+      <Suspense fallback={<div className="h-[600px] w-full flex items-center justify-center"><div className="w-8 h-8 border-4 border-apyx-purple border-t-transparent rounded-full animate-spin"></div></div>}>
+        <MomentumDataFetcher />
+      </Suspense>
 
-      {/* 5. Community Impact */}
-      <ImpactSection />
+      {/* 5. Builders (Replaces Gallery) */}
+      <BuildersSection buildersData={homeBuilders} />
 
-      {/* 6. Gallery Preview */}
-      <GalleryPreview photos={galleryPhotos || undefined} />
-
-      {/* 7. Join CTA */}
-      <JoinCTA />
+      {/* 6. Threshold (Replaces JoinCTA) */}
+      <ThresholdSection />
     </div>
   );
 }

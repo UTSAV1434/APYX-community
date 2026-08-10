@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { createAlbum } from "@/app/actions/gallery";
+import { AdminFormLayout } from "@/components/layout/admin-form-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -73,79 +74,60 @@ export function AlbumForm({
   };
 
   return (
-    <div className="p-6 lg:p-10 max-w-4xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold font-heading text-white mb-2">
-          {title}
-        </h1>
-        <p className="text-apyx-text-secondary">{description}</p>
+    <AdminFormLayout
+      title={title}
+      description={description}
+      backLink="/admin/gallery"
+      backText="Back to Gallery"
+      error={error}
+      onSubmit={handleSubmit}
+    >
+      <Input
+        label="Album Title"
+        name="title"
+        required
+        placeholder="Hackathon 2026"
+      />
+
+      <Textarea
+        label="Description"
+        name="description"
+        placeholder="Photos from our spring hackathon event..."
+        className="resize-none"
+      />
+
+      <Input
+        label={`Event Date${requireEventDate ? "" : " (Optional)"}`}
+        name="event_date"
+        type="date"
+        required={requireEventDate}
+      />
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-apyx-text-secondary">
+          Cover Photo
+        </label>
+        <Input
+          name="cover_file"
+          type="file"
+          accept="image/*"
+          className="text-apyx-text-secondary cursor-pointer file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-apyx-purple/10 file:text-apyx-purple hover:file:bg-apyx-purple/20"
+        />
       </div>
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-apyx-surface border border-apyx-border rounded-3xl p-6 sm:p-8 space-y-6"
-      >
-        {error && (
-          <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-sm text-red-400">
-            {error}
-          </div>
-        )}
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Album Title *</label>
-          <Input
-            name="title"
-            required
-            placeholder="Hackathon 2026"
-            className="bg-apyx-bg border-apyx-border h-12"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Description</label>
-          <Textarea
-            name="description"
-            placeholder="Photos from our spring hackathon event..."
-            className="bg-apyx-bg border-apyx-border resize-none"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white">
-            Event Date{requireEventDate ? " *" : ""}
-          </label>
-          <Input
-            name="event_date"
-            type="date"
-            required={requireEventDate}
-            className="bg-apyx-bg border-apyx-border h-12 text-white"
-          />
-        </div>
-
-        <div className="space-y-2">
-          <label className="text-sm font-medium text-white">Cover Photo</label>
-          <Input
-            name="cover_file"
-            type="file"
-            accept="image/*"
-            className="bg-apyx-bg border-apyx-border pt-2.5 h-12 text-apyx-text-secondary cursor-pointer file:mr-4 file:py-1 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-apyx-purple/10 file:text-apyx-purple hover:file:bg-apyx-purple/20"
-          />
-        </div>
-
-        <div className="pt-4 flex justify-end">
-          <Button
-            type="submit"
-            disabled={loading}
-            className="bg-apyx-purple hover:bg-apyx-purple/90 text-white min-w-[150px]"
-          >
-            {loading ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : (
-              submitLabel
-            )}
-          </Button>
-        </div>
-      </form>
-    </div>
+      <div className="pt-4 flex justify-end">
+        <Button
+          type="submit"
+          disabled={loading}
+          className="bg-apyx-purple hover:bg-apyx-purple/90 text-white min-w-[150px]"
+        >
+          {loading ? (
+            <Loader2 className="w-5 h-5 animate-spin" />
+          ) : (
+            submitLabel
+          )}
+        </Button>
+      </div>
+    </AdminFormLayout>
   );
 }

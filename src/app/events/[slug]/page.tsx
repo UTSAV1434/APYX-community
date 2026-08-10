@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { getEventBySlug } from "@/app/actions/events";
 import { notFound } from "next/navigation";
+import { formatDate } from "@/lib/format-date";
 
 export const metadata: Metadata = {
   title: "Event Details",
@@ -86,7 +87,7 @@ export default async function EventDetailPage({ params }: { params: Promise<{ sl
                     <Calendar className="w-5 h-5 text-apyx-purple" />
                   </div>
                   <div>
-                    <p className="font-medium text-white">{new Date(event.start_date).toLocaleDateString()}</p>
+                    <p className="font-medium text-white">{formatDate(event.start_date)}</p>
                     <p className="text-sm text-apyx-text-muted">{new Date(event.start_date).toLocaleTimeString()} - {new Date(event.end_date).toLocaleTimeString()}</p>
                   </div>
                 </div>

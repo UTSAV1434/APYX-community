@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { deleteEvent, getEvents } from "@/app/actions/events";
 import { AdminTable } from "@/components/ui/admin-table";
+import { formatDate } from "@/lib/format-date";
 
 export const metadata: Metadata = {
   title: "Manage Events | Admin",
@@ -53,7 +54,7 @@ export default async function AdminEventsPage() {
         renderRow={(event) => (
           <>
             <td className="px-6 py-4 font-medium text-white">{event.title}</td>
-            <td className="px-6 py-4">{new Date(event.start_date).toLocaleDateString()}</td>
+            <td className="px-6 py-4">{formatDate(event.start_date)}</td>
             <td className="px-6 py-4 capitalize">{event.type}</td>
             <td className="px-6 py-4">
               <span className={`px-2 py-1 rounded-md text-[10px] font-bold uppercase border ${

@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { EventCard } from "@/components/ui/event-card";
-import { Event } from "@/types/database";
+import { EmptyState } from "@/components/ui/empty-state";
+import type { Event } from "@/types/database";
+import { formatDate } from "@/lib/format-date";
 
 interface EventGridProps {
   events: Event[];
@@ -28,8 +30,13 @@ export function EventCardGrid({ events = [] }: EventGridProps) {
       </div>
 
       {!events || events.length === 0 ? (
-        <div className="text-center py-24 bg-apyx-surface border border-apyx-border rounded-3xl">
-          <p className="text-apyx-text-secondary text-lg">No events scheduled yet. Check back later!</p>
+        <div className="py-12">
+          <EmptyState 
+            icon="calendar" 
+            title="No events scheduled" 
+            description="There are currently no events scheduled. Check back later!" 
+            variant="glass" 
+          />
         </div>
       ) : (
         <div className="grid md:grid-cols-2 gap-6">
@@ -43,7 +50,7 @@ export function EventCardGrid({ events = [] }: EventGridProps) {
               category={event.type}
               status={event.status === "ongoing" ? "live" : event.status as any}
               featured={event.is_featured}
-              date={new Date(event.start_date).toLocaleDateString()}
+              datetime={formatDate(event.start_date)}
               location={event.location}
             />
           ))}

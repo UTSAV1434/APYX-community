@@ -1,236 +1,164 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowRight, Play, Sparkles, MessageCircle, Hash, Camera, Briefcase, Phone } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Image from "next/image";
-import { useEffect, useRef } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Heading, Text } from "@/components/ui/typography";
+import Link from "next/link";
+import { useRef, useState, useEffect } from "react";
+import { cn } from "@/lib/utils";
 
-// Helper component for 3D mouse parallax tilt
-function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
+interface HeroSectionProps {
+  heroData?: {
+    badge_text: string;
+    title: string;
+    subtitle: string;
+    cta_text: string;
+  };
+}
 
-  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 20 });
+export function HeroSection({ heroData }: HeroSectionProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [0, 150]);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    
-    const width = rect.width;
-    const height = rect.height;
-    
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    
-    x.set(xPct);
-    y.set(yPct);
+  // Magnetic button effect
+  const btnRef = useRef<HTMLAnchorElement>(null);
+  const [btnPos, setBtnPos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!btnRef.current) return;
+    const rect = btnRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    setBtnPos({ x: x * 0.2, y: y * 0.2 });
   };
 
   const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
+    setBtnPos({ x: 0, y: 0 });
   };
 
+  const transition = { duration: 1.2, ease: [0.16, 1, 0.3, 1] as const };
+
   return (
-    <motion.div
-      ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        rotateX,
-        rotateY,
-        transformStyle: "preserve-3d",
-      }}
-      className={className}
+    <section 
+      ref={containerRef}
+      className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0a] pt-32 pb-24 lg:pt-0 lg:pb-0"
     >
-      {children}
-    </motion.div>
-  );
-}
-
-export function HeroSection() {
-  return (
-    <section className="relative min-h-screen pt-32 pb-24 flex flex-col items-center justify-start overflow-hidden bg-[#0a0a0a]">
-      
-      {/* Dynamic Background Lighting */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Top Glow */}
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-apyx-purple/30 rounded-[100%] blur-[120px]" />
-        {/* Bottom Left Glow */}
-        <div className="absolute top-[40%] -left-20 w-[500px] h-[500px] bg-apyx-cyan/20 rounded-[100%] blur-[100px]" />
-        {/* Bottom Right Glow */}
-        <div className="absolute top-[50%] -right-20 w-[600px] h-[600px] bg-apyx-amber/10 rounded-[100%] blur-[120px]" />
+      {/* Abstract Breathing Geometry */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.05, 1],
+            opacity: [0.3, 0.5, 0.3],
+            rotate: [0, 5, -5, 0]
+          }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-[20%] -right-[10%] w-[1200px] h-[800px] bg-gradient-radial from-apyx-purple/20 via-apyx-purple/5 to-transparent rounded-[100%] blur-[120px]" 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.1, 1],
+            opacity: [0.2, 0.4, 0.2],
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: "linear", delay: 2 }}
+          className="absolute bottom-[10%] right-[10%] w-[800px] h-[600px] bg-gradient-radial from-apyx-cyan/15 via-apyx-cyan/5 to-transparent rounded-[100%] blur-[100px]" 
+        />
         
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)", backgroundSize: "40px 40px" }} />
+        {/* Deep mask for infinite depth */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/50 via-transparent to-[#0a0a0a]" />
       </div>
 
-      {/* Hero Content */}
-      <div className="relative z-20 container-wide px-4 flex flex-col items-center text-center">
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 mb-8 rounded-full border border-white/10 bg-white/5 backdrop-blur-md text-sm text-white/80 font-medium"
-        >
-          <span className="relative flex h-2 w-2 mr-1">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-apyx-cyan opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-apyx-cyan" />
-          </span>
-          Dream bigger. Build faster.
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="text-5xl sm:text-7xl md:text-[6rem] lg:text-[7rem] font-bold font-heading leading-[1.05] tracking-tight max-w-5xl"
-        >
-          The future of <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-apyx-cyan via-apyx-purple to-apyx-rose">APYX innovation.</span>
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-          className="mt-8 text-lg sm:text-xl md:text-2xl text-white/60 max-w-2xl leading-relaxed"
-        >
-          Join the world's most ambitious ecosystem of creators, developers, and designers building the next generation of technology.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          className="mt-10 flex flex-col sm:flex-row items-center gap-4"
-        >
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button className="h-14 px-8 rounded-full bg-white text-black hover:bg-white/90 text-base font-bold transition-all hover:scale-105 shadow-[0_0_40px_rgba(255,255,255,0.3)]">
-                Join the Community
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" className="w-56 bg-apyx-surface border-apyx-border text-white">
-              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a
-                  href="https://chat.whatsapp.com/I32ntrKuJTzHlCbUZ6jQT0"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Phone className="w-4 h-4 mr-2" />
-                  WhatsApp
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://discord.gg/apyx" target="_blank" rel="noopener noreferrer">
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  Discord
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://twitter.com/apyx" target="_blank" rel="noopener noreferrer">
-                  <Hash className="w-4 h-4 mr-2" />
-                  Twitter
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://instagram.com/apyx" target="_blank" rel="noopener noreferrer">
-                  <Camera className="w-4 h-4 mr-2" />
-                  Instagram
-                </a>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                <a href="https://linkedin.com/company/apyx" target="_blank" rel="noopener noreferrer">
-                  <Briefcase className="w-4 h-4 mr-2" />
-                  LinkedIn
-                </a>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </motion.div>
-
-      </div>
-
-      {/* 3D Dashboard Showcase */}
-      <motion.div
-        initial={{ opacity: 0, y: 100 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 w-full max-w-6xl mt-20 px-4 perspective-[2000px]"
+      <motion.div 
+        style={{ opacity, y }}
+        className="container-wide relative z-20 px-4 w-full"
       >
-        <TiltCard className="relative w-full h-[300px] sm:h-[500px] lg:h-[700px] transition-transform duration-200 ease-out">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center h-full">
           
-          {/* Main Dashboard Image */}
-          <div className="absolute inset-0 rounded-2xl sm:rounded-[40px] border border-white/10 bg-black/50 overflow-hidden shadow-[0_0_80px_rgba(0,0,0,0.8)]" style={{ transform: "translateZ(50px)" }}>
-            <Image
-              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=2000"
-              alt="Platform Dashboard"
-              fill
-              className="object-cover opacity-80"
-              priority
-            />
-            {/* Dashboard inner gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+          {/* Content Column - Vast Negative Space */}
+          <div className="flex flex-col items-start text-left max-w-2xl py-24">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...transition, delay: 0.1 }}
+              className="mb-10"
+            >
+              <Badge variant="glass" size="md" className="border-white/5 bg-white/[0.02] text-white/60 backdrop-blur-xl px-4 py-1.5 h-auto relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-[200%] group-hover:animate-shimmer" />
+                {heroData?.badge_text || "APYX ECOSYSTEM"}
+              </Badge>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...transition, delay: 0.3 }}
+            >
+              <Heading as="h1" className="text-5xl sm:text-6xl lg:text-[5.5rem] tracking-tight leading-[1.02] font-semibold text-white">
+                {heroData?.title || "The operating system for ambition."}
+              </Heading>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...transition, delay: 0.5 }}
+            >
+              <Text className="mt-8 text-xl sm:text-2xl text-apyx-text-secondary leading-relaxed max-w-lg font-light">
+                {heroData?.subtitle || "An elite network of builders, scaling the next generation of technology through relentless execution and shared vision."}
+              </Text>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ ...transition, delay: 0.7 }}
+              className="mt-14"
+            >
+              <motion.a
+                ref={btnRef}
+                href="/join"
+                onMouseMove={handleMouseMove}
+                onMouseLeave={handleMouseLeave}
+                animate={{ x: btnPos.x, y: btnPos.y }}
+                transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+                className={cn(
+                  "group relative inline-flex items-center justify-center h-14 px-8 text-base font-medium text-white transition-all duration-300",
+                  "bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-full",
+                  "shadow-[0_0_0_0_rgba(255,255,255,0)] hover:shadow-[0_0_30px_-5px_rgba(255,255,255,0.1)]"
+                )}
+              >
+                <span className="relative z-10 flex items-center">
+                  {heroData?.cta_text || "Join the Network"}
+                  <ArrowRight className="w-5 h-5 ml-3 transition-transform duration-300 group-hover:translate-x-1" />
+                </span>
+                {/* Subtle inner glow */}
+                <div className="absolute inset-0 rounded-full bg-gradient-to-r from-apyx-purple/0 via-apyx-purple/10 to-apyx-cyan/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-md" />
+              </motion.a>
+            </motion.div>
           </div>
 
-          {/* Floating Glass Card - Left */}
+          {/* Right Column - Visual Anchor */}
           <motion.div
-            animate={{ y: [-10, 10, -10] }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute top-[20%] -left-[5%] md:-left-[10%] w-48 sm:w-64 p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
-            style={{ transform: "translateZ(100px)" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 2, delay: 0.5 }}
+            className="hidden lg:block relative h-full w-full pointer-events-none"
           >
-            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-apyx-cyan to-apyx-purple mb-4 flex items-center justify-center">
-              <Sparkles className="w-5 h-5 text-white" />
-            </div>
-            <h3 className="text-white font-semibold text-sm sm:text-base">Real Projects</h3>
-            <p className="text-white/50 text-xs sm:text-sm mt-1">Build portfolio-ready applications.</p>
+            {/* The right side is intentionally left minimal for this section, creating a massive counter-balance of deep atmospheric light. */}
           </motion.div>
 
-          {/* Floating Glass Card - Right */}
-          <motion.div
-            animate={{ y: [10, -10, 10] }}
-            transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-[20%] -right-[5%] md:-right-[10%] w-48 sm:w-64 p-4 sm:p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-xl shadow-2xl"
-            style={{ transform: "translateZ(120px)" }}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="flex -space-x-2">
-                {[1,2,3].map(i => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-black bg-gray-800 relative overflow-hidden">
-                    <Image src={`https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=100&q=80&sig=${i}`} alt="User" fill className="object-cover" />
-                  </div>
-                ))}
-              </div>
-              <span className="text-xs text-white/60 font-medium">+10k Members</span>
-            </div>
-            <h3 className="text-white font-semibold text-sm sm:text-base">Global Network</h3>
-            <p className="text-white/50 text-xs sm:text-sm mt-1">Connect with students worldwide.</p>
-          </motion.div>
-
-        </TiltCard>
+        </div>
       </motion.div>
       
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none z-30" />
+      {/* Bottom gradient seamlessly blending into the next section */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none z-30" />
     </section>
   );
 }

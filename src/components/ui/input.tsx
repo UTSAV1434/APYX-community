@@ -258,15 +258,18 @@ export const InputControl = React.forwardRef<HTMLInputElement, InputControlProps
     const isPassword = type === "password";
 
     return (
-      <div className={cn("flex flex-col gap-1.5", fullWidth ? "w-full" : "w-auto", className)}>
+      <div className={cn("flex flex-col gap-1.5", fullWidth ? "w-full" : "w-auto")}>
         <div 
-          className={inputWrapperVariants({ 
-            variant, 
-            size, 
-            state,
-            disabled, 
-            fullWidth 
-          })}
+          className={cn(
+            inputWrapperVariants({ 
+              variant, 
+              size, 
+              state,
+              disabled, 
+              fullWidth 
+            }),
+            className
+          )}
         >
           {leftIcon && (
             <div className="pr-2 text-apyx-text-muted flex items-center justify-center shrink-0">
@@ -374,6 +377,7 @@ export interface InputProps extends InputControlProps {
   success?: string | boolean;
   warning?: string | boolean;
   validationState?: "default" | "success" | "warning" | "error";
+  containerClassName?: string;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -387,14 +391,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       validationState,
       required,
       className,
+      containerClassName,
       ...props
     },
     ref
   ) => {
     return (
-      <Field error={error} success={success} warning={warning} validationState={validationState} className={className}>
+      <Field error={error} success={success} warning={warning} validationState={validationState} className={containerClassName}>
         {label && <FieldLabel required={required}>{label}</FieldLabel>}
-        <InputControl ref={ref} required={required} {...props} />
+        <InputControl ref={ref} required={required} className={className} {...props} />
         <FieldErrorMessage />
         <FieldWarningMessage />
         <FieldSuccessMessage />

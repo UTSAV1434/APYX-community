@@ -17,7 +17,7 @@ export async function getEvents() {
     .order("start_date", { ascending: false });
 
   if (error) {
-    console.error("Error fetching events:", JSON.stringify(error, null, 2));
+    console.error("Error fetching events:", error?.message || "Unknown error");
     return [];
   }
 

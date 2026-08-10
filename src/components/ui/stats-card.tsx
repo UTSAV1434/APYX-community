@@ -14,6 +14,7 @@ interface StatsCardProps {
   suffix?: string;
   prefix?: string;
   duration?: number;
+  description?: string;
 }
 
 export function StatsCard({ 
@@ -21,7 +22,8 @@ export function StatsCard({
   value, 
   suffix = "", 
   prefix = "",
-  duration = 2
+  duration = 2,
+  description
 }: StatsCardProps) {
   const [count, setCount] = useState(0);
   const ref = useRef(null);
@@ -68,9 +70,14 @@ export function StatsCard({
           <div className="text-4xl md:text-5xl font-bold font-heading text-white mb-2 group-hover:text-apyx-cyan transition-colors drop-shadow-sm">
             {prefix}{count}{suffix}
           </div>
-          <div className="text-sm font-medium text-apyx-text-secondary uppercase tracking-wider">
+          <div className="text-sm font-semibold text-white uppercase tracking-wider mb-2">
             {label}
           </div>
+          {description && (
+            <div className="text-xs text-apyx-text-secondary leading-relaxed">
+              {description}
+            </div>
+          )}
         </CardContent>
       </Card>
     </motion.div>

@@ -55,7 +55,7 @@ export async function getAnnouncements(): Promise<Announcement[]> {
     .order("published_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching announcements:", error);
+    console.error("Error fetching announcements:", error?.message || "Unknown error");
     return [];
   }
 

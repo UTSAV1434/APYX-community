@@ -125,6 +125,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
       render,
       type = "button",
       children,
+      asChild, // Destructure out asChild so it doesn't get passed to the DOM
       ...props
     },
     ref
@@ -134,6 +135,15 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
     const actualLeftIcon = leftIcon || (iconPosition === "left" ? icon : null);
     const actualRightIcon = rightIcon || (iconPosition === "right" ? icon : null);
     const gapStyle = iconGap !== undefined ? { gap: typeof iconGap === "number" ? `${iconGap}px` : iconGap } : undefined;
+    
+    // Accessibility runtime check
+    if (process.env.NODE_ENV !== "production") {
+      if (iconOnly && !props["aria-label"] && !props["aria-labelledby"]) {
+        console.warn(
+          "Button component with `iconOnly={true}` requires an `aria-label` or `aria-labelledby` attribute for accessibility."
+        );
+      }
+    }
     
     // Motion configurations from the shared token system
     const motionProps: MotionProps = {

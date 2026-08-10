@@ -59,6 +59,9 @@ export default function RootLayout({
       className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} dark`}
     >
       <body className="min-h-screen bg-background text-foreground relative">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[9999] focus:p-4 focus:bg-background focus:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple">
+          Skip to main content
+        </a>
         <ExperienceProvider>
           <NoiseTexture />
           <TooltipProvider>
