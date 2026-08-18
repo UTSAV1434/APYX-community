@@ -85,6 +85,7 @@ const EventCardImage = React.forwardRef<HTMLDivElement, EventCardImageProps>(
             src={src}
             alt={alt}
             fill
+            unoptimized
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
@@ -96,21 +97,21 @@ const EventCardImage = React.forwardRef<HTMLDivElement, EventCardImageProps>(
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.4)_100%)] pointer-events-none mix-blend-overlay" />
         
         {/* Glass Hero Overlay for Badges */}
-        <div className="absolute top-0 left-0 w-full p-5 flex justify-between items-start z-10 pointer-events-none transition-all duration-700 group-hover:drop-shadow-glow">
-          <div className="flex gap-2">
+        <div className="absolute top-0 left-0 w-full p-5 flex flex-wrap justify-between items-start gap-2 z-10 pointer-events-none transition-all duration-700 group-hover:drop-shadow-glow">
+          <div className="flex flex-wrap gap-2 flex-1">
             {featured && (
               <Badge variant="featured" size="sm">
                 Featured
               </Badge>
             )}
             {category && (
-              <Badge variant="glass" size="sm">
+              <Badge variant="glass" size="sm" className="truncate max-w-[100px]">
                 {category}
               </Badge>
             )}
           </div>
           {currentStatus && (
-            <Badge variant={currentStatus.variant} size="sm">
+            <Badge variant={currentStatus.variant} size="sm" className="shrink-0">
               {currentStatus.label}
             </Badge>
           )}

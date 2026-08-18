@@ -139,9 +139,11 @@ export function MomentumSection({ featuredEvent, upcomingEvents = [], announceme
             </ScrollReveal>
           </div>
           <ScrollReveal delay={0.2} direction="left" className="flex-shrink-0">
-            <Button variant="outline" className="hidden lg:inline-flex rounded-full px-6 text-white border-white/20 hover:bg-white/10 group">
-              View Calendar
-              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+            <Button asChild variant="outline" className="hidden lg:inline-flex rounded-full px-6 text-white border-white/20 hover:bg-white/10 group">
+              <Link href="/events">
+                View Calendar
+                <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+              </Link>
             </Button>
           </ScrollReveal>
         </div>
@@ -237,8 +239,10 @@ export function MomentumSection({ featuredEvent, upcomingEvents = [], announceme
 
         {/* Mobile View All Button */}
         <div className="mt-8 flex justify-center lg:hidden">
-          <Button variant="outline" className="rounded-full px-6 text-white border-white/20">
-            View Calendar
+          <Button asChild variant="outline" className="rounded-full px-6 text-white border-white/20">
+            <Link href="/events">
+              View Calendar
+            </Link>
           </Button>
         </div>
 

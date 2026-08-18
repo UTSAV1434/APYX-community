@@ -19,8 +19,9 @@ export function ImmersiveWrapper({ children }: ImmersiveWrapperProps) {
 
   // Smooth the scroll progress so the video doesn't jitter
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 70,
-    damping: 20,
+    stiffness: 40,
+    damping: 25,
+    mass: 0.5,
     restDelta: 0.001
   });
 
@@ -31,15 +32,22 @@ export function ImmersiveWrapper({ children }: ImmersiveWrapperProps) {
     // Ensure the video is paused initially
     video.pause();
 
+    let animationFrameId: number;
+
     const unsubscribe = smoothProgress.on("change", (latest) => {
-      // Map scroll progress (0 to 1) to video duration
-      if (video.duration && !isNaN(video.duration)) {
-        video.currentTime = latest * video.duration;
-      }
+      // Use requestAnimationFrame to prevent main thread blocking and ensure smooth updates
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      
+      animationFrameId = requestAnimationFrame(() => {
+        if (video.duration && !isNaN(video.duration)) {
+          video.currentTime = latest * video.duration;
+        }
+      });
     });
 
     return () => {
       unsubscribe();
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
   }, [smoothProgress]);
 

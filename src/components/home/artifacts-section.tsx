@@ -27,77 +27,83 @@ export function ArtifactCard({ artifact, featured = false, delay = 0 }: { artifa
   if (featured) {
     return (
       <ScrollReveal direction="up" delay={delay} className="h-full">
-        <Card variant="glass" className="h-full flex flex-col group overflow-hidden border-white/10 hover:border-apyx-cyan/30 transition-all duration-500">
-          <RadialGlow />
-          <div className="relative aspect-video lg:aspect-[16/10] overflow-hidden rounded-t-[20px] bg-apyx-surface">
-            {/* Subtle Image Zoom on Hover */}
-            <Image 
-              src={artifact.image}
-              alt={artifact.title}
-              fill
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-80 mix-blend-screen"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-            
-            {/* Content Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end">
-              <div className="flex gap-2 mb-4">
-                {artifact.tags.map((tag: string) => (
-                  <Badge key={tag} variant="neutral" className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border-transparent text-xs">
-                    {tag}
-                  </Badge>
-                ))}
+        <Link href={artifact.link || "#"} target="_blank" rel="noopener noreferrer" className="block h-full group">
+          <Card variant="glass" className="h-full flex flex-col group overflow-hidden border-white/10 hover:border-apyx-cyan/30 transition-all duration-500">
+            <RadialGlow />
+            <div className="relative aspect-video lg:aspect-[16/10] overflow-hidden rounded-t-[20px] bg-apyx-surface">
+              {/* Subtle Image Zoom on Hover */}
+              <Image 
+                src={artifact.image}
+                alt={artifact.title}
+                fill
+                unoptimized
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+              
+              {/* Content Overlay */}
+              <div className="absolute bottom-0 left-0 right-0 p-8 flex flex-col justify-end">
+                <div className="flex gap-2 mb-4">
+                  {artifact.tags.map((tag: string) => (
+                    <Badge key={tag} variant="neutral" className="bg-white/10 hover:bg-white/20 text-white backdrop-blur-md border-transparent text-xs">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+                <h3 className="text-3xl font-semibold text-white mb-3 font-heading tracking-tight group-hover:text-apyx-cyan transition-colors">
+                  {artifact.title}
+                </h3>
+                <p className="text-apyx-text-secondary max-w-lg leading-relaxed">
+                  {artifact.description}
+                </p>
               </div>
-              <h3 className="text-3xl font-semibold text-white mb-3 font-heading tracking-tight">
-                {artifact.title}
-              </h3>
-              <p className="text-apyx-text-secondary max-w-lg leading-relaxed">
-                {artifact.description}
-              </p>
             </div>
-          </div>
-        </Card>
+          </Card>
+        </Link>
       </ScrollReveal>
     );
   }
 
   return (
     <ScrollReveal direction="up" delay={delay} className="flex-1">
-      <Card variant="glass" className="h-full flex flex-col group overflow-hidden border-white/10 hover:border-apyx-purple/30 transition-all duration-500">
-        <RadialGlow />
-        <div className="relative h-48 sm:h-56 lg:h-48 overflow-hidden rounded-t-[20px] bg-apyx-surface">
-          <Image 
-            src={artifact.image}
-            alt={artifact.title}
-            fill
-            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-70 mix-blend-screen"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
-        </div>
-        <CardContent className="p-6 flex-1 flex flex-col justify-between bg-black/40 backdrop-blur-md relative z-10 -mt-10 rounded-b-[20px]">
-          <div>
-            <div className="flex justify-between items-start mb-3">
-              <h4 className="text-xl font-semibold text-white font-heading">{artifact.title}</h4>
-              <span className="text-xs font-mono text-apyx-purple border border-apyx-purple/20 bg-apyx-purple/5 px-2 py-1 rounded-md">
-                {artifact.category}
-              </span>
-            </div>
-            <p className="text-sm text-apyx-text-secondary leading-relaxed mb-4">
-              {artifact.description}
-            </p>
+      <Link href={artifact.link || "#"} target="_blank" rel="noopener noreferrer" className="block h-full group">
+        <Card variant="glass" className="h-full flex flex-col group overflow-hidden border-white/10 hover:border-apyx-purple/30 transition-all duration-500">
+          <RadialGlow />
+          <div className="relative h-48 sm:h-56 lg:h-48 overflow-hidden rounded-t-[20px] bg-apyx-surface">
+            <Image 
+              src={artifact.image}
+              alt={artifact.title}
+              fill
+              unoptimized
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-105 opacity-90"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent" />
           </div>
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex gap-2">
-              {artifact.tags.map((tag: string) => (
-                <span key={tag} className="text-xs text-white/50">{tag}</span>
-              ))}
+          <CardContent className="p-6 flex-1 flex flex-col justify-between bg-black/40 backdrop-blur-md relative z-10 -mt-10 rounded-b-[20px]">
+            <div>
+              <div className="flex justify-between items-start mb-3">
+                <h4 className="text-xl font-semibold text-white font-heading group-hover:text-apyx-purple transition-colors">{artifact.title}</h4>
+                <span className="text-xs font-mono text-apyx-purple border border-apyx-purple/20 bg-apyx-purple/5 px-2 py-1 rounded-md">
+                  {artifact.category}
+                </span>
+              </div>
+              <p className="text-sm text-apyx-text-secondary leading-relaxed mb-4">
+                {artifact.description}
+              </p>
             </div>
-            <Link href={artifact.link} className="text-white/40 hover:text-white transition-colors p-2 -mr-2">
-              <ExternalLink className="w-4 h-4" />
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+            <div className="flex justify-between items-center mt-4">
+              <div className="flex gap-2">
+                {artifact.tags.slice(0, 2).map((tag: string) => (
+                  <Badge key={tag} variant="neutral" className="bg-white/5 text-white/70 border-transparent text-[10px]">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+              <ArrowRight className="w-4 h-4 text-white/30 group-hover:text-apyx-purple transition-colors group-hover:translate-x-1" />
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
     </ScrollReveal>
   );
 }
