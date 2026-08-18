@@ -15,7 +15,7 @@
   --font-sans:    var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-mono:    var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
   --font-heading: var(--font-outfit), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  /* Note: Playfair (--font-serif) removed — unused, saves ~30kB */
+  --font-serif:   var(--font-playfair), ui-serif, Georgia, serif;
 
   /* ── shadcn/ui semantic color mappings ──────────────────────────── */
   --color-background:             var(--background);

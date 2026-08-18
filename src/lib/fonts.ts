@@ -10,7 +10,7 @@
  * Note: Playfair Display removed — it was loaded but unused (saves ~30kB).
  */
 
-import { Inter, Outfit, JetBrains_Mono } from "next/font/google";
+import { Inter, Outfit, JetBrains_Mono, Playfair_Display } from "next/font/google";
 
 /** Inter — body text, UI labels, captions */
 export const inter = Inter({
@@ -34,4 +34,12 @@ export const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
   display: "swap",
   weight: ["400", "500", "600"],
+});
+
+/** Playfair Display — serif headings */
+export const playfair = Playfair_Display({
+  subsets: ["latin"],
+  variable: "--font-playfair",
+  display: "swap",
+  weight: ["400", "500", "600", "700", "800"],
 });

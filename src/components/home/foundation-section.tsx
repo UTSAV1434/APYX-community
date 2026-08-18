@@ -32,7 +32,7 @@ interface FoundationSectionProps {
 
 export function FoundationSection({ foundationData }: FoundationSectionProps) {
   return (
-    <section className="relative z-10 bg-[#0a0a0a] border-t border-white/[0.05] pt-24 pb-32">
+    <section className="relative z-10 bg-transparent border-t border-white/[0.05] pt-24 pb-32">
       <Container>
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">
           <div className="max-w-3xl">

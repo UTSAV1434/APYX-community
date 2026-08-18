@@ -9,6 +9,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { EventCard } from "@/components/ui/event-card";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import Link from "next/link";
+import { formatDistanceToNow } from "date-fns";
+import type { Announcement } from "@/types/database";
 
 interface EventItem {
   id: string;
@@ -28,23 +31,35 @@ interface EventItem {
 interface MomentumSectionProps {
   featuredEvent?: EventItem | null;
   upcomingEvents?: EventItem[];
+  announcements?: Announcement[];
 }
 
 const LIVE_UPDATES = [
-  { id: 1, icon: <Ticket className="w-4 h-4 text-apyx-brand" />, text: "Registration opened for APYX Hackathon 2026", time: "Just now" },
-  { id: 2, icon: <Zap className="w-4 h-4 text-apyx-cyan" />, text: "New workshop: Deep Learning on the Edge added", time: "2 hours ago" },
-  { id: 3, icon: <CheckCircle2 className="w-4 h-4 text-green-400" />, text: "Speaker confirmed: Sam Altman", time: "5 hours ago" },
+  { id: 1, icon: <Ticket className="w-4 h-4 text-apyx-brand" />, text: "Registration opened for APYX Hackathon 2026", time: "Just now", href: "/announcements" },
+  { id: 2, icon: <Zap className="w-4 h-4 text-apyx-cyan" />, text: "New workshop: Deep Learning on the Edge added", time: "2 hours ago", href: "/announcements" },
+  { id: 3, icon: <CheckCircle2 className="w-4 h-4 text-green-400" />, text: "Speaker confirmed: Sam Altman", time: "5 hours ago", href: "/announcements" },
 ];
 
-export function MomentumSection({ featuredEvent, upcomingEvents = [] }: MomentumSectionProps) {
+export function MomentumSection({ featuredEvent, upcomingEvents = [], announcements = [] }: MomentumSectionProps) {
   const [currentUpdate, setCurrentUpdate] = useState(0);
+
+  // Map announcements to ticker items, fallback to dummy data if empty
+  const liveUpdates = announcements.length > 0 
+    ? announcements.map(a => ({
+        id: a.id,
+        icon: <Activity className="w-4 h-4 text-apyx-cyan" />,
+        text: a.title,
+        time: formatDistanceToNow(new Date(a.published_at), { addSuffix: true }),
+        href: `/announcements/${a.slug}`
+      }))
+    : LIVE_UPDATES;
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentUpdate((prev) => (prev + 1) % LIVE_UPDATES.length);
+      setCurrentUpdate((prev) => (prev + 1) % liveUpdates.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
+  }, [liveUpdates.length]);
 
   // Use dummy data if no DB data is provided yet
   const dummyFeatured = {
@@ -102,7 +117,7 @@ export function MomentumSection({ featuredEvent, upcomingEvents = [] }: Momentum
   };
 
   return (
-    <Section padding="default" className="relative border-t border-white/[0.05] bg-apyx-background overflow-hidden">
+    <Section padding="default" className="relative border-t border-white/[0.05] bg-transparent overflow-hidden">
       <Container>
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">
@@ -133,33 +148,38 @@ export function MomentumSection({ featuredEvent, upcomingEvents = [] }: Momentum
 
         {/* Live Updates Strip */}
         <ScrollReveal delay={0.1} direction="up" className="mb-12">
-          <div className="flex items-center gap-4 bg-apyx-surface/50 border border-white/5 rounded-full p-2 pr-6 max-w-3xl mx-auto backdrop-blur-sm relative overflow-hidden group">
-            <div className="flex items-center justify-center bg-black/40 rounded-full h-10 w-10 shrink-0 border border-white/10 group-hover:border-apyx-brand/50 transition-colors duration-500">
-              <Activity className="w-4 h-4 text-white/70" />
-            </div>
-            <div className="flex-1 relative h-6 overflow-hidden">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentUpdate}
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: -20, opacity: 0 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="absolute inset-0 flex items-center justify-between gap-4"
-                >
-                  <div className="flex items-center gap-3 truncate">
-                    {LIVE_UPDATES[currentUpdate].icon}
-                    <span className="text-sm text-white/90 font-medium truncate">
-                      {LIVE_UPDATES[currentUpdate].text}
+          {liveUpdates.length > 0 && (
+            <Link 
+              href={liveUpdates[currentUpdate]?.href || "/announcements"}
+              className="flex items-center gap-4 bg-apyx-surface/50 border border-white/5 rounded-full p-2 pr-6 max-w-3xl mx-auto backdrop-blur-sm relative overflow-hidden group hover:bg-apyx-surface/80 hover:border-apyx-brand/30 transition-all duration-300"
+            >
+              <div className="flex items-center justify-center bg-black/40 rounded-full h-10 w-10 shrink-0 border border-white/10 group-hover:border-apyx-brand/50 transition-colors duration-500">
+                <Activity className="w-4 h-4 text-white/70" />
+              </div>
+              <div className="flex-1 relative h-6 overflow-hidden">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentUpdate}
+                    initial={{ y: 20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -20, opacity: 0 }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="absolute inset-0 flex items-center justify-between gap-4"
+                  >
+                    <div className="flex items-center gap-3 truncate">
+                      {liveUpdates[currentUpdate]?.icon}
+                      <span className="text-sm text-white/90 font-medium truncate">
+                        {liveUpdates[currentUpdate]?.text}
+                      </span>
+                    </div>
+                    <span className="text-xs text-apyx-text-muted whitespace-nowrap shrink-0 hidden sm:block">
+                      {liveUpdates[currentUpdate]?.time}
                     </span>
-                  </div>
-                  <span className="text-xs text-apyx-text-muted whitespace-nowrap shrink-0 hidden sm:block">
-                    {LIVE_UPDATES[currentUpdate].time}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-          </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+            </Link>
+          )}
         </ScrollReveal>
 
         {/* Events Grid */}

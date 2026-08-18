@@ -108,7 +108,7 @@ export function ArtifactsSection({ artifactsData }: ArtifactsSectionProps) {
   const secondaryArtifacts = artifactsList.filter(a => !a.featured);
 
   return (
-    <Section padding="default" className="relative border-t border-white/[0.05] overflow-hidden bg-black">
+    <Section padding="default" className="relative border-t border-white/[0.05] overflow-hidden bg-transparent">
       <Container>
         {/* Header */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-16 gap-8">

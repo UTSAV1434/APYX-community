@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { inter, outfit, jetbrainsMono } from "@/lib/fonts";
+import { inter, outfit, jetbrainsMono, playfair } from "@/lib/fonts";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "@/components/ui/sonner";
 import { Navbar } from "@/components/layout/navbar";
@@ -56,7 +56,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} dark`}
+      className={`${inter.variable} ${outfit.variable} ${jetbrainsMono.variable} ${playfair.variable} dark`}
     >
       <body className="min-h-screen bg-background text-foreground relative">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[9999] focus:p-4 focus:bg-background focus:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-apyx-purple">

@@ -79,7 +79,7 @@ export function BuildersSection({ buildersData }: BuildersSectionProps) {
   const gridBuilders = buildersList.filter(b => !b.featured);
 
   return (
-    <Section padding="default" className="relative border-t border-white/[0.05] bg-apyx-background">
+    <Section padding="default" className="relative border-t border-white/[0.05] bg-transparent">
       <Container>
         {/* Header */}
         <div className="flex flex-col items-center text-center mb-20">

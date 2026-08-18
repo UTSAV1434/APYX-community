@@ -1,99 +1,164 @@
 import { Metadata } from "next";
-import { ArrowRight, Target, Lightbulb, Rocket, Heart, Shield, Users } from "lucide-react";
+import { ArrowRight, Lightbulb, Rocket, Heart, Users, MoveDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { SectionHeader } from "@/components/ui/section-header";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import Link from "next/link";
+import Image from "next/image";
 
 export const metadata: Metadata = {
   title: "About Us",
   description: "Learn about APYX's mission to empower student builders through hackathons, workshops, and real-world projects.",
 };
 
-const values = [
-  { icon: Target, title: "Impact Driven", desc: "We focus on building solutions that matter and create tangible value." },
-  { icon: Lightbulb, title: "Innovation First", desc: "Pushing boundaries and exploring emerging technologies." },
-  { icon: Users, title: "Community Core", desc: "A supportive ecosystem where everyone learns and grows together." },
-  { icon: Rocket, title: "Bias for Action", desc: "Less talking, more shipping. We learn by building." },
-  { icon: Shield, title: "Open & Inclusive", desc: "Tech is for everyone. We welcome all backgrounds and skill levels." },
-  { icon: Heart, title: "Passion", desc: "We genuinely love technology and the art of creation." },
+const standOutCards = [
+  { icon: Rocket, title: "Innovation First", desc: "Pushing boundaries and exploring emerging technologies." },
+  { icon: Users, title: "Community Driven", desc: "A supportive ecosystem where everyone learns and grows together." },
+  { icon: Lightbulb, title: "Bias for Action", desc: "Less talking, more shipping. We learn by building." },
+  { icon: Heart, title: "Open & Inclusive", desc: "We welcome all backgrounds and skill levels." },
 ];
 
-
-
-const timeline = [
-  { year: "2023", title: "The Spark", desc: "APYX was founded by a small group of student developers." },
-  { year: "2024", title: "First Hackathon", desc: "Hosted our flagship 48-hour hackathon with 200+ attendees." },
-  { year: "2025", title: "Expansion", desc: "Launched our project incubator and partnered with Devfolio." },
-  { year: "2026", title: "The Future", desc: "Scaling our impact across multiple campuses and tech stacks." },
+const whatWeDoCards = [
+  { icon: Rocket, title: "Hackathons", desc: "We host high-energy hackathons where students can build, collaborate, and compete to create innovative solutions in just 48 hours." },
+  { icon: Users, title: "Workshops & Events", desc: "From technical deep-dives to founder talks, we bring in industry experts to bridge the gap between classroom theory and industry practice." },
+  { icon: Lightbulb, title: "Project Incubator", desc: "We support student-led projects by providing mentorship, resources, and a platform to launch their ideas into the real world." },
 ];
 
 export default function AboutPage() {
-
   return (
-    <div className="flex flex-col min-h-screen pt-24 lg:pt-32 pb-16">
-      {/* Hero Section */}
-      <section className="container-wide mb-24">
-        <ScrollReveal>
-          <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-heading mb-6 tracking-tight">
-              We build the <span className="text-gradient">future</span> of student tech.
-            </h1>
-            <p className="text-lg sm:text-xl text-apyx-text-secondary leading-relaxed mb-8">
-              APYX is more than a club. It&apos;s an ecosystem of student builders, designers, and innovators passionate about turning ideas into reality through code and collaboration.
-            </p>
-          </div>
-        </ScrollReveal>
-      </section>
+    <div className="flex flex-col min-h-screen bg-[#050505]">
+      
+      {/* 1. Hero Image Section */}
+      <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden border-b border-white/[0.05]">
+        {/* Full screen background image (Centered Hands) */}
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src="/about-newspaper-bg.jpg" 
+            alt="Newspaper background" 
+            fill 
+            className="object-cover object-center opacity-70 lg:opacity-100"
+            priority
+          />
+          {/* Subtle gradient overlays to blend into the page */}
+          <div className="absolute inset-0 bg-[#050505]/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050505]/80 via-transparent to-[#050505]" />
+        </div>
 
-      {/* Mission & Vision */}
-      <section className="container-wide mb-32 relative">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-gradient-brand opacity-5 blur-[120px] pointer-events-none rounded-full" />
-        
-        <div className="grid md:grid-cols-2 gap-8 lg:gap-16 relative z-10">
-          <ScrollReveal direction="up" className="bg-apyx-surface border border-apyx-border rounded-3xl p-8 sm:p-12 hover:border-apyx-purple/50 transition-colors">
-            <h2 className="text-2xl font-bold font-heading text-white mb-4 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-apyx-purple/10 flex items-center justify-center text-apyx-purple">
-                <Target className="w-5 h-5" />
-              </div>
-              Our Mission
-            </h2>
-            <p className="text-apyx-text-secondary leading-relaxed text-lg">
-              To democratize access to cutting-edge technology education and provide a platform where students can bridge the gap between theoretical knowledge and real-world engineering.
-            </p>
-          </ScrollReveal>
-
-          <ScrollReveal direction="up" delay={0.2} className="bg-apyx-surface border border-apyx-border rounded-3xl p-8 sm:p-12 hover:border-apyx-cyan/50 transition-colors">
-            <h2 className="text-2xl font-bold font-heading text-white mb-4 flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-apyx-cyan/10 flex items-center justify-center text-apyx-cyan">
-                <Lightbulb className="w-5 h-5" />
-              </div>
-              Our Vision
-            </h2>
-            <p className="text-apyx-text-secondary leading-relaxed text-lg">
-              To be the premier launchpad for student-led startups and technical talent, fostering an environment where innovation thrives without boundaries.
-            </p>
+        <div className="container-wide relative z-10 w-full pt-20">
+          <ScrollReveal>
+            <div className="relative mx-auto flex flex-col items-center text-center">
+              <h1 className="text-7xl sm:text-8xl lg:text-9xl font-bold font-serif tracking-tight text-white leading-none drop-shadow-2xl">
+                About <span className="text-gradient">Us</span>
+              </h1>
+            </div>
           </ScrollReveal>
         </div>
       </section>
 
-
-
-      {/* Core Values */}
-      <section className="bg-apyx-surface/30 border-y border-apyx-border py-24 mb-32">
+      {/* 1.5. Hero Content Section */}
+      <section className="py-24 border-b border-white/[0.05]">
         <div className="container-wide">
-          <SectionHeader 
-            title="Core Values" 
-            subtitle="The principles that guide our community and how we build."
+          <ScrollReveal>
+            <div className="relative max-w-4xl mx-auto flex flex-col items-center text-center">
+              
+              {/* Top Row Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 mb-16 justify-center w-full">
+                <Button variant="outline" className="rounded-full px-8 py-6 border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-colors bg-[#080808] backdrop-blur-md">
+                  Who We Are
+                </Button>
+                <Button variant="outline" className="rounded-full px-8 py-6 border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-colors bg-[#080808] backdrop-blur-md">
+                  What We Do
+                </Button>
+              </div>
+
+              {/* Main Typography */}
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-medium font-serif mb-8 text-white/90 leading-tight">
+                We build the <span className="text-gradient">future</span><br/>of student tech.
+              </h2>
+              <p className="text-lg sm:text-xl text-apyx-text-secondary leading-relaxed mb-12 max-w-2xl">
+                APYX is more than a club. It's an ecosystem of student builders, designers, and innovators passionate about turning ideas into reality through code and collaboration.
+              </p>
+              <Button variant="outline" className="rounded-full px-8 py-6 border-apyx-purple/30 text-apyx-purple hover:bg-apyx-purple/10 hover:border-apyx-purple/60 transition-colors bg-[#080808] backdrop-blur-md">
+                Keep Scrolling <MoveDown className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* 2. What Makes Us Stand Out Section */}
+      <section className="relative py-32 border-b border-white/[0.05] overflow-hidden">
+        {/* Left side background image (Hands) */}
+        <div className="absolute left-0 top-0 bottom-0 w-full lg:w-1/2 z-0">
+          <Image 
+            src="/about-whatwedo-bg.jpg" 
+            alt="Supportive glowing hands" 
+            fill 
+            className="object-cover object-[center_left] opacity-80 lg:opacity-100"
           />
-          
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {values.map((value, i) => (
-              <ScrollReveal key={value.title} delay={i * 0.1}>
-                <div className="p-6 rounded-2xl bg-apyx-bg border border-apyx-border h-full hover:border-apyx-purple/30 transition-colors group">
-                  <value.icon className="w-8 h-8 text-apyx-text-muted mb-4 group-hover:text-apyx-purple transition-colors" />
-                  <h3 className="text-lg font-bold font-heading text-white mb-2">{value.title}</h3>
-                  <p className="text-apyx-text-secondary text-sm leading-relaxed">{value.desc}</p>
+          {/* Gradient to fade into the black background on the right */}
+          <div className="absolute inset-0 bg-gradient-to-l from-[#050505] via-[#050505]/80 to-transparent lg:via-[#050505]/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
+        </div>
+
+        <div className="container-wide relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-8 items-center">
+            {/* Left Column - Heading over the hands */}
+            <ScrollReveal>
+              <div className="max-w-lg">
+                <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-serif mb-12 text-white leading-tight drop-shadow-xl">
+                  What We<br/><span className="text-gradient">Do</span>
+                </h2>
+                <Button variant="outline" className="rounded-full px-8 py-6 border-white/20 text-white hover:bg-white/10 hover:border-white/40 transition-colors bg-black/40 backdrop-blur-md">
+                  Take a Look For Yourself <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            </ScrollReveal>
+
+            {/* Right Column - Grid of Cards */}
+            <div className="grid sm:grid-cols-2 gap-6">
+              {standOutCards.map((card, idx) => (
+                <ScrollReveal key={idx} delay={0.1 * idx} direction="up">
+                  <div className="bg-[#080808]/90 backdrop-blur-xl border border-white/5 p-8 rounded-2xl h-full hover:border-apyx-purple/30 transition-all duration-300 group shadow-[0_4px_40px_-10px_rgba(0,0,0,0.8)]">
+                    <div className="w-12 h-12 rounded-full bg-apyx-purple/10 flex items-center justify-center text-apyx-purple mb-6 group-hover:scale-110 transition-transform duration-500 border border-apyx-purple/20">
+                      <card.icon className="w-5 h-5" />
+                    </div>
+                    <h3 className="text-xl font-serif text-white mb-3 tracking-wide">{card.title}</h3>
+                    <p className="text-apyx-text-secondary leading-relaxed text-sm">
+                      {card.desc}
+                    </p>
+                  </div>
+                </ScrollReveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. What We Do Section */}
+      <section className="py-32 border-b border-white/[0.05]">
+        <div className="container-wide">
+          <ScrollReveal>
+            <div className="text-center mb-16 max-w-3xl mx-auto">
+              <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold font-serif mb-4 text-white">
+                What We <span className="text-gradient">Do</span>
+              </h2>
+              <p className="text-lg text-apyx-text-secondary mt-6">
+                How we bring our mission to life through action.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {whatWeDoCards.map((card, idx) => (
+              <ScrollReveal key={idx} delay={0.1 * idx} direction="up">
+                <div className="bg-[#080808]/90 backdrop-blur-xl border border-white/5 p-8 sm:p-10 rounded-3xl h-full hover:border-apyx-purple/30 transition-all duration-300 group shadow-[0_4px_40px_-10px_rgba(0,0,0,0.8)]">
+                  <div className="w-14 h-14 rounded-2xl bg-apyx-purple/10 flex items-center justify-center text-apyx-purple mb-8 group-hover:scale-110 group-hover:-rotate-3 transition-transform duration-500 border border-apyx-purple/20 shadow-[0_0_30px_-10px_rgba(168,85,247,0.4)]">
+                    <card.icon className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-2xl font-serif text-white mb-4 tracking-wide">{card.title}</h3>
+                  <p className="text-apyx-text-secondary leading-relaxed text-base">
+                    {card.desc}
+                  </p>
                 </div>
               </ScrollReveal>
             ))}
@@ -101,72 +166,33 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* What We Do */}
-      <section className="container-wide mb-32">
-        <SectionHeader 
-          title="What We Do" 
-          subtitle="How we bring our mission to life through action."
-        />
-        
-        <div className="grid md:grid-cols-3 gap-8">
-          <ScrollReveal>
-            <div className="bg-apyx-surface border border-apyx-border p-8 rounded-3xl h-full hover:border-apyx-purple/50 transition-colors group">
-              <div className="w-12 h-12 rounded-xl bg-apyx-purple/10 flex items-center justify-center text-apyx-purple mb-6 group-hover:scale-110 transition-transform">
-                <Rocket className="w-6 h-6" />
+      {/* 4. Journey CTA Section */}
+      <section className="py-32">
+        <div className="container-wide">
+          <ScrollReveal direction="up">
+            <div className="relative bg-[#080808]/90 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-12 sm:p-20 text-center max-w-5xl mx-auto overflow-hidden group shadow-[0_4px_40px_-10px_rgba(0,0,0,0.8)]">
+              {/* Subtle background glow */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-1/2 bg-apyx-purple/20 blur-[100px] rounded-full pointer-events-none opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
+              
+              <div className="relative z-10">
+                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-white mb-6 tracking-tight drop-shadow-xl">
+                  Be part of the <span className="text-gradient">journey.</span>
+                </h2>
+                <p className="text-apyx-text-secondary text-lg sm:text-xl mb-12 max-w-2xl mx-auto">
+                  Ready to start building? Join hundreds of other student developers in our community.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+                  <Button render={<Link href="/contact" />} size="lg" className="w-full sm:w-auto bg-apyx-purple hover:bg-apyx-purple/90 text-white rounded-full px-8 py-6 text-base font-medium shadow-[0_0_30px_-5px_rgba(168,85,247,0.5)] hover:shadow-[0_0_40px_-5px_rgba(168,85,247,0.7)] transition-all duration-300">
+                    Join The Team <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                  <Button render={<Link href="/events" />} size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/20 hover:bg-white/10 rounded-full px-8 py-6 text-base font-medium transition-all duration-300 bg-black/40 backdrop-blur-md">
+                    Explore Events
+                  </Button>
+                </div>
               </div>
-              <h3 className="text-xl font-bold font-heading text-white mb-3">Hackathons</h3>
-              <p className="text-apyx-text-secondary leading-relaxed">
-                We host high-energy hackathons where students can build, collaborate, and compete to create innovative solutions in just 48 hours.
-              </p>
-            </div>
-          </ScrollReveal>
-          
-          <ScrollReveal delay={0.1}>
-            <div className="bg-apyx-surface border border-apyx-border p-8 rounded-3xl h-full hover:border-apyx-cyan/50 transition-colors group">
-              <div className="w-12 h-12 rounded-xl bg-apyx-cyan/10 flex items-center justify-center text-apyx-cyan mb-6 group-hover:scale-110 transition-transform">
-                <Users className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold font-heading text-white mb-3">Workshops & Events</h3>
-              <p className="text-apyx-text-secondary leading-relaxed">
-                From technical deep-dives to founder talks, we bring in industry experts to bridge the gap between classroom theory and industry practice.
-              </p>
-            </div>
-          </ScrollReveal>
-
-          <ScrollReveal delay={0.2}>
-            <div className="bg-apyx-surface border border-apyx-border p-8 rounded-3xl h-full hover:border-apyx-rose/50 transition-colors group">
-              <div className="w-12 h-12 rounded-xl bg-apyx-rose/10 flex items-center justify-center text-apyx-rose mb-6 group-hover:scale-110 transition-transform">
-                <Lightbulb className="w-6 h-6" />
-              </div>
-              <h3 className="text-xl font-bold font-heading text-white mb-3">Project Incubator</h3>
-              <p className="text-apyx-text-secondary leading-relaxed">
-                We support student-led projects by providing mentorship, resources, and a platform to launch their ideas into the real world.
-              </p>
             </div>
           </ScrollReveal>
         </div>
-      </section>
-
-      {/* Join CTA */}
-      <section className="container-wide">
-        <ScrollReveal>
-          <div className="bg-gradient-to-br from-apyx-surface to-apyx-bg border border-apyx-border rounded-3xl p-12 text-center max-w-4xl mx-auto">
-            <h2 className="text-3xl sm:text-4xl font-bold font-heading text-white mb-6">
-              Be part of the journey.
-            </h2>
-            <p className="text-apyx-text-secondary text-lg mb-8 max-w-2xl mx-auto">
-              Ready to start building? Join hundreds of other student developers in our community.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button render={<Link href="/contact" />} size="lg" className="w-full sm:w-auto bg-apyx-purple hover:bg-apyx-purple/90 text-white">
-                Join the Team <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-              <Button render={<Link href="/events" />} size="lg" variant="outline" className="w-full sm:w-auto text-white border-apyx-border hover:bg-white/5">
-                Explore Events
-              </Button>
-            </div>
-          </div>
-        </ScrollReveal>
       </section>
     </div>
   );

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SPRINGS } from "@/lib/motion";
 import { Heading, Text } from "@/components/ui/typography";
+import { CinematicBackground } from "@/components/home/cinematic-background";
 import Link from "next/link";
 import { useRef, useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
@@ -52,28 +53,18 @@ export function HeroSection({ heroData }: HeroSectionProps) {
       ref={containerRef}
       className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0a] pt-32 pb-24 lg:pt-0 lg:pb-0"
     >
-      {/* Abstract Breathing Geometry */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.05, 1],
-            opacity: [0.3, 0.5, 0.3],
-            rotate: [0, 5, -5, 0]
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          className="absolute -top-[20%] -right-[10%] w-[1200px] h-[800px] bg-gradient-radial from-apyx-purple/20 via-apyx-purple/5 to-transparent rounded-[100%] blur-[120px]" 
-        />
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.1, 1],
-            opacity: [0.2, 0.4, 0.2],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear", delay: 2 }}
-          className="absolute bottom-[10%] right-[10%] w-[800px] h-[600px] bg-gradient-radial from-apyx-cyan/15 via-apyx-cyan/5 to-transparent rounded-[100%] blur-[100px]" 
-        />
-        
-        {/* Deep mask for infinite depth */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/50 via-transparent to-[#0a0a0a]" />
+      {/* Layer 1: Cinematic video background (z-0) */}
+      <CinematicBackground
+        src="/hero-video.mp4"
+        poster="/hero-poster.jpg"
+        overlayOpacity={0.7}
+        className="z-0"
+      />
+
+      {/* Layer 2: Subtle APYX brand accent glows — above video overlay (z-5) */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-[5]">
+        <div className="absolute -top-[20%] -right-[10%] w-[1200px] h-[800px] bg-gradient-radial from-apyx-purple/10 via-apyx-purple/3 to-transparent rounded-[100%] blur-[120px]" />
+        <div className="absolute bottom-[10%] right-[10%] w-[800px] h-[600px] bg-gradient-radial from-apyx-cyan/8 via-apyx-cyan/2 to-transparent rounded-[100%] blur-[100px]" />
       </div>
 
       <motion.div 
